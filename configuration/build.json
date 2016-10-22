@@ -1,0 +1,127 @@
+{
+  "common": {
+    "name": "appName",
+    "unique": ".n-.o-.v-build-.b",
+    "version": "1.2.0",
+    "build": "2.1.23",
+    "library": {
+      "jquery.min.js":"http://code.jquery.com/jquery-3.1.1.min.js",
+      "jquery.ui.min.js":"http://code.jquery.com/ui/1.12.0/jquery-ui.min.js",
+      "jquery.ui.touch-punch.min.js": "https://raw.githubusercontent.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js",
+      "localforage.min.js":"https://mozilla.github.io/localForage/localforage.min.js",
+      "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
+    },
+    "development": {
+      "root": "development",
+      "assets": "assets",
+      "lib": "lib"
+    },
+    "production": {
+      "root": "production",
+      "main": "index",
+      "type": "app",
+      "file": {
+        "img": {
+          "png$": true
+        },
+        "fontmya": {
+          "(.*)": true
+        },
+        "fontello": {
+          "json$": false
+        },
+        "laisiangtho": {
+          "([A-Z])": false
+        },
+        "lang": {
+          "^[a-z]{2}.json$": true
+        },
+        "lib": {
+          "([A-Z]|\\d)": false
+        },
+        "css": {
+          "([A-Z]|\\d)": false
+        },
+        "js": {
+          "([A-Z]|\\d)": false
+        },
+        "root": {
+          "([A-Z]|\\d)": false
+        }
+      }
+    }
+  },
+  "individual": {
+    "chrome": {
+      "production": {
+        "file": {
+          "laisiangtho": {
+            "(json)": true
+          },
+          "css": {
+            "(mobile|web|tablet)": false
+          },
+          "js": {
+            "(mobile|web|tablet)": false
+          },
+          "root": {
+            "(chrome)": true
+          }
+        }
+      }
+    },
+    "ios": {
+      "production": {
+        "file": {
+          "css": {
+            "(desktop|web|android)": false
+          },
+          "js": {
+            "(desktop|web|chrome|android)": false
+          },
+          "root": {
+            "(ios|app)": true,
+            "(web)": false
+          }
+        }
+      }
+    },
+    "android": {
+      "production": {
+        "file": {
+          "css": {
+            "(desktop|web|ios)": false
+          },
+          "js": {
+            "(desktop|web|chrome|ios)": false
+          },
+          "root": {
+            "(android|app)": true,
+            "(web)": false
+          }
+        }
+      }
+    },
+    "default": {
+      "development": {
+        "main": "default"
+      },
+      "production": {
+        "type": "web",
+        "file": {
+          "css": {
+            "(app)": false
+          },
+          "js": {
+            "(app)": false
+          },
+          "root": {
+            "(default|web)": true,
+            "(app)": false
+          }
+        }
+      }
+    },
+    "electron": {}
+  }
+}

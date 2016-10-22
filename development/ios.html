@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Lai Siangtho</title>
+<link rel="api" href="http://api.laisiangtho.com/"/>
+<link rel="icon" href="img/icon.png" type="image/png"/>
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery.ui.min.js"></script>
+<script src="lib/jquery.ui.touch-punch.min.js"></script>
+<!--<script src="lib/jquery.mobile.custom.min.js"></script>-->
+<script src="lib/localforage.min.js"></script>
+<!--<script src="cordova.js"></script>-->
+<script src="js/script.js"></script>
+<script>
+$(function(){
+  $(document).app({
+    L:{script:['data bible','data config']},
+    E:[{'metalink':['api']},'load','watch'],
+    Device:'ios',Platform:'app',Deploy:'mobile',
+    App:'app',Click:'vclick',On:'fO'
+  }).Ready();
+});
+</script>
+<!-- <link rel="stylesheet" href="css/style.splash.css"> -->
+<link rel="stylesheet" href="fontello/laisiangtho.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="l189">
+    <div>
+    	<div>
+            <h1>Lai Siangtho</h1>
+        </div>
+        <div>
+            <p>July 23, 2015  8:20</p>
+        </div>
+        <div>
+            <ol>
+                <li id="msg">Wait</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
