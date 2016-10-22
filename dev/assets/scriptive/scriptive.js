@@ -246,10 +246,14 @@
         return false;
       },
       handler:function() {
-        doc.querySelector('.0'.replace(0,Config.On)).addEventListener(Config.Handler, function(event){
-          var query = this.getAttribute('class').split(' ').filter(function(e){return e}).remove(Config.On);
-          app.root.execute.call(app.root,query,event);
-        })
+        // querySelector,querySelectorAll
+        var element = doc.getElementsByClassName(Config.On);
+        for (var i = 0; i < element.length; i++) {
+          element[i].addEventListener(Config.Handler, (function(event) {
+            var query = this.getAttribute('class').split(' ').filter(function(e){return e}).remove(Config.On);
+            app.root.execute.call(app.root,query,event);
+          }));
+        }​
       },
       metalink:function() {
         arguments[0].each(function(i,v){
@@ -338,6 +342,11 @@ Object.defineProperties(Array.prototype,{
     }
   }
 });
+// Array.prototype.each = function(callback) {
+//   for (var i = 0, len = this.length; i < len; i++) {
+//     callback(i, this[i]);
+//   }
+// };
 /*
 Array.prototype.remove = function() {
     var what, a = arguments, L = a.length, ax;

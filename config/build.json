@@ -122,6 +122,26 @@
         }
       }
     },
+    "web": {
+      "development": {
+        "main": "default"
+      },
+      "production": {
+        "type": "web",
+        "file": {
+          "css": {
+            "(app)": false
+          },
+          "js": {
+            "(app)": false
+          },
+          "root": {
+            "(default|web)": true,
+            "(app)": false
+          }
+        }
+      }
+    },
     "electron": {}
   }
 }

@@ -15,10 +15,11 @@ var Message = {
     "NoOSValid": "the specified: {os} is not valid",
     "DataCopied": "Data Copied...",
     "MsgOk": "Ok: {msg}",
-    "MsgError": "--{msg}",
+    "MsgError": "{msg}",
     "NoConfig": "Package contains no configuration!",
     "NoConfigValid": "Package->configuration has no 'build' specified!",
-    "FileNotExist": "file does not exist!"
+    "FileNotExist": "file does not exist!",
+    "ENOENT": "{msg} does not exist, and skipped!"
 };
 // NOTE: REQUIRE DATA
 var Package = JSON.parse(fs.readFileSync('package.json'));
@@ -62,7 +63,11 @@ Task = {
         //Package.name,process.env.npm_package_name
         Setting.unique = Setting.unique.replace('.n', Setting.name).replace('.o', Argv.os).replace('.v', Setting.version).replace('.b', Setting.build);
         Setting.development.dir = path.join(Setting.development.root);
-        Setting.production.dir = path.join(Setting.production.root, Setting.unique);
+        if (Argv.dir) {
+          Setting.production.dir = path.join(Argv.dir);
+        } else {
+          Setting.production.dir = path.join(Setting.production.root, Setting.unique);
+        }
         Task.create.production(Setting.production.dir, function(msg) {
           console.log('creating', Setting.os);
           Task.read.development(Setting.development.dir, function(file, state) {
@@ -159,7 +164,11 @@ Task = {
       var file = Task.todo.shift();
       file.Copy(function(err) {
         if (err) {
-          Task.msg.error(Message.MsgError.replace('{msg}', err));
+          if (Message.hasOwnProperty(err.code)) {
+            Task.msg.error(Message[err.code].replace('{msg}', file.src));
+          } else {
+            Task.msg.error(Message.MsgError.replace('{msg}', err));
+          }
         } else {
           Task.msg.success(Message.MsgOk.replace('Ok', Setting.os).replace('{msg}', file.src));
         }

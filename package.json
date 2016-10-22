@@ -10,6 +10,7 @@
     "build-ios": "node ./config/scripts/build.js --os=ios",
     "build-android": "node ./config/scripts/build.js --os=android",
     "build-default": "node ./config/scripts/build.js --os=default",
+    "build-web": "node ./config/scripts/build.js --os=web --dir=docs",
     "build-electron": "node ./config/scripts/build.js --os=electron"
   },
   "keywords": [

@@ -3,6 +3,7 @@ Javascript Application Service
 
 ## Task
 * Install devDependencies
+  - `npm install --save-dev`
   - `npm install --production --save-dev`
 * Download development library
   - `npm run download`
@@ -13,3 +14,4 @@ Javascript Application Service
   - `npm run build-android`
   - `npm run build-default`
   - `npm run build-electron`
+  - `npm run build-web`
