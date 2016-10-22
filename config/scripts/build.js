@@ -77,7 +77,7 @@ Task = {
             Task.copy(function() {
               console.log('Image');
               Task.todo.push({
-                'src': path.join('configuration', Setting.os),
+                'src': path.join('config', Setting.os),
                 'des': Setting.production.dir
               });
               Task.copy(function() {

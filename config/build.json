@@ -12,7 +12,7 @@
       "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
     },
     "development": {
-      "root": "development",
+      "root": "dev",
       "assets": "assets",
       "lib": "lib"
     },

@@ -2,21 +2,21 @@
   "name": "projectName",
   "version": "1.0.0",
   "description": "javascript application service",
-  "main": "./configuration/scripts/main.js",
+  "main": "./config/scripts/main.js",
   "scripts": {
-    "download": "node ./configuration/scripts/download.js",
-    "build": "node ./configuration/scripts/build.js",
-    "build-chrome": "node ./configuration/scripts/build.js --os=chrome",
-    "build-ios": "node ./configuration/scripts/build.js --os=ios",
-    "build-android": "node ./configuration/scripts/build.js --os=android",
-    "build-default": "node ./configuration/scripts/build.js --os=default",
-    "build-electron": "node ./configuration/scripts/build.js --os=electron"
+    "download": "node ./config/scripts/download.js",
+    "build": "node ./config/scripts/build.js",
+    "build-chrome": "node ./config/scripts/build.js --os=chrome",
+    "build-ios": "node ./config/scripts/build.js --os=ios",
+    "build-android": "node ./config/scripts/build.js --os=android",
+    "build-default": "node ./config/scripts/build.js --os=default",
+    "build-electron": "node ./config/scripts/build.js --os=electron"
   },
   "keywords": [
     "language"
   ],
   "configuration": {
-    "build": "configuration/build.json"
+    "build": "config/build.json"
   },
   "author": "authorName",
   "license": "MIT",
