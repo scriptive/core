@@ -10,6 +10,7 @@ var Package=JSON.parse(fs.readFileSync('package.json'));
 
 var Configuration = JSON.parse(fs.readFileSync(Package.configuration.build));
 // GULP
+var productionRoot=Configuration.common.production.root;
 var developmentRoot=Configuration.common.development.root;
 var developmentAssets=path.join(developmentRoot,Configuration.common.development.assets);
 //SASS
@@ -55,8 +56,9 @@ gulp.task('filesystask',function(){
     compress:true,
     preserveComments:'license'
   }).on('error', console.log))
-  .pipe(concat('fileSystask.min.js'))
-  .pipe(gulp.dest(path.join(developmentAssets,'filesystask')));
+  .pipe(concat('filesystask.min.js'))
+  // .pipe(gulp.dest(path.join(developmentAssets,'filesystask')))
+  .pipe(gulp.dest(path.join(productionRoot)));
 });
 // fileHtmltask
 gulp.task('filehtmltask',function(){
@@ -70,8 +72,9 @@ gulp.task('filehtmltask',function(){
     compress:true,
     preserveComments:'license'
   }).on('error', console.log))
-  .pipe(concat('fileHtmltask.min.js'))
-  .pipe(gulp.dest(path.join(developmentAssets,'filehtmltask')));
+  .pipe(concat('filehtmltask.min.js'))
+  // .pipe(gulp.dest(path.join(developmentAssets,'filehtmltask')))
+  .pipe(gulp.dest(path.join(productionRoot)));
 });
 // scriptive
 gulp.task('scriptive',function(){
@@ -86,8 +89,8 @@ gulp.task('scriptive',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('scriptive.min.js'))
-  .pipe(gulp.dest(path.join(developmentRoot,'lib')));
-  // .pipe(gulp.dest(path.join(developmentAssets,'scriptive')));
+  .pipe(gulp.dest(path.join(developmentRoot,'lib')))
+  .pipe(gulp.dest(path.join(productionRoot)));
 });
 //WATCH
 gulp.task('watch', function() {

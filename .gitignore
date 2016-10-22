@@ -44,7 +44,8 @@ Temporary Items
 # =========================
 #CUSTOM
 # =========================
-production/*/*
+dist/*
+!dist/*.js
 node_modules/
 backup
 nbproject

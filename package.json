@@ -1,5 +1,5 @@
 {
-  "name": "script",
+  "name": "projectName",
   "version": "1.0.0",
   "description": "javascript application service",
   "main": "./configuration/scripts/main.js",
@@ -10,8 +10,7 @@
     "build-ios": "node ./configuration/scripts/build.js --os=ios",
     "build-android": "node ./configuration/scripts/build.js --os=android",
     "build-default": "node ./configuration/scripts/build.js --os=default",
-    "build-electron": "node ./configuration/scripts/build.js --os=electron",
-    "build-test": "node ./configuration/scripts/build-test.js --os=chrome"
+    "build-electron": "node ./configuration/scripts/build.js --os=electron"
   },
   "keywords": [
     "language"
@@ -19,16 +18,16 @@
   "configuration": {
     "build": "configuration/build.json"
   },
-  "author": "Khen Solomon Lethil",
+  "author": "authorName",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scriptive/script.git"
+    "url": "git+https://github.com/Name/Project.git"
   },
   "bugs": {
-    "url": "https://github.com/scriptive/script/issues"
+    "url": "https://github.com/Name/Project/issues"
   },
-  "homepage": "https://github.com/scriptive/script#readme",
+  "homepage": "https://github.com/Name/Project#readme",
   "dependencies": {},
   "devDependencies": {
     "cli-color": "^1.1.0",

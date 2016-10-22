@@ -248,7 +248,6 @@ Object.defineProperties(Object.prototype,{
 document.addEventListener('DOMContentLoaded', function () {
   new fileHtmltask('task');
   task.help();
-
   // textarea = document.createElement('textarea');
   // textarea.id = "t100";
   // // textarea.style = "width:100%;";
