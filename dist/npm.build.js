@@ -33,15 +33,16 @@ var Package = JSON.parse(fs.readFileSync('package.json'));
 */
 // console.log(Package.configuration.build);
 var Setting = {},
-Configuration={},
+Build={},
 Task = {
+  isError:false,
   todo: [],
   init: function() {
     // Package.configuration.build
     if (Package.hasOwnProperty('configuration')) {
       if (Package.configuration.hasOwnProperty('build')) {
         try {
-          Configuration = JSON.parse(fs.readFileSync(Package.configuration.build));
+          Build = JSON.parse(fs.readFileSync(Package.configuration.build));
           this.start();
         }
         catch (e) {
@@ -56,37 +57,37 @@ Task = {
   },
   start: function() {
     if (Argv.os) {
-      if (Configuration.individual.hasOwnProperty(Argv.os)) {
-        Setting = extend(true, Configuration.common, Configuration.individual[Argv.os]);
-        if (!Setting.development.main) Setting.development.main = Argv.os;
+      if (Build.individual.hasOwnProperty(Argv.os)) {
+        Setting = extend(true, Build.common, Build.individual[Argv.os]);
+        if (!Setting.dev.main) Setting.dev.main = Argv.os;
         Setting.os = Argv.os;
         //Package.name,process.env.npm_package_name
         Setting.unique = Setting.unique.replace('.n', Setting.name).replace('.o', Argv.os).replace('.v', Setting.version).replace('.b', Setting.build);
-        Setting.development.dir = path.join(Setting.development.root);
+        Setting.dev.dir = path.join(Setting.dev.root);
         if (Argv.dir) {
-          Setting.production.dir = path.join(Argv.dir);
+          Setting.dist.dir = path.join(Argv.dir);
         } else {
-          Setting.production.dir = path.join(Setting.production.root, Setting.unique);
+          Setting.dist.dir = path.join(Setting.dist.root, Setting.unique);
         }
-        Task.create.production(Setting.production.dir, function(msg) {
+        Task.create.production(Setting.dist.dir, function(msg) {
           console.log('creating', Setting.os);
-          Task.read.development(Setting.development.dir, function(file, state) {
+          Task.read.development(Setting.dev.dir, function(file, state) {
             Task.todo.push(file);
           });
           Task.copy(function() {
-            console.log('Development');
+            //Development done
             Task.todo.push({
-              'src': path.join('image', Setting.os),
-              'des': path.join(Setting.production.dir, 'img')
+              'src': path.join(Setting.image.root, Setting.os),
+              'des': path.join(Setting.dist.dir, 'img')
             });
             Task.copy(function() {
-              console.log('Image');
+              // Image done
               Task.todo.push({
-                'src': path.join('config', Setting.os),
-                'des': Setting.production.dir
+                'src': path.join(Setting.config.root, Setting.os),
+                'des': Setting.dist.dir
               });
               Task.copy(function() {
-                console.log('Configuration');
+                // Configuration done
               });
             });
           });
@@ -133,28 +134,28 @@ Task = {
         if (state.isFile()) {
           file.src = dir;
           var dirName = file.dir.split(path.sep).pop();
-          if (dirName == Setting.development.root) {
-            if (Object.keys(Setting.production.file.root).every(function(reg) {
-                  return new RegExp(reg).test(fileName) === Setting.production.file.root[reg];
+          if (dirName == Setting.dev.root) {
+            if (Object.keys(Setting.dist.file.root).every(function(reg) {
+                  return new RegExp(reg).test(fileName) === Setting.dist.file.root[reg];
                 })){
-                  if (Setting.development.main == file.name && file.ext == '.html') {
-                      file.des = path.join(Setting.production.dir, Setting.production.main + file.ext);
+                  if (Setting.dev.main == file.name && file.ext == '.html') {
+                      file.des = path.join(Setting.dist.dir, Setting.dist.main + file.ext);
                   }else{
-                      file.des = path.join(Setting.production.dir, fileName);
+                      file.des = path.join(Setting.dist.dir, fileName);
                   }
               callback(file, state);
             }
           } else {
-            if (Object.keys(Setting.production.file[dirName]).every(function(reg) {
+            if (Object.keys(Setting.dist.file[dirName]).every(function(reg) {
               // console.log(dirName,reg);
-                return new RegExp(reg).test(fileName) === Setting.production.file[dirName][reg];
+                return new RegExp(reg).test(fileName) === Setting.dist.file[dirName][reg];
               })) {
-              file.des = path.join(dir.replace(Setting.development.root, Setting.production.dir));
+              file.des = path.join(dir.replace(Setting.dev.root, Setting.dist.dir));
               callback(file, state);
             }
           }
         } else if (state.isDirectory()) {
-          if (Setting.production.file.hasOwnProperty(fileName)) Task.read.development(dir, callback);
+          if (Setting.dist.file.hasOwnProperty(fileName)) Task.read.development(dir, callback);
         }
       });
     }

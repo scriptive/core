@@ -1,5 +1,5 @@
 !function(o) {
     o.load = function(o) {
-        console.log("load 1 ");
+        console.log("load 1");
     };
 }(scriptive("app"));

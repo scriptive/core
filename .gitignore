@@ -58,11 +58,8 @@ output
 dev/lib/*.js
 dev/js/*.js
 dev/css/*.css
-dev/assets/*/*[0-9].*
-dev/assets/*/*Delete*.*
-dev/assets/*/*Working*.*
-dev/assets/*/*Tmp*.*
-dev/assets/*/job*
-#dev/assets/*/*[job,Working,Tmp,Delete]*.*
-#dev/*/*/[0-9]+.*
-#dev/assets/js/[0-9]+.*
+asset/*/*[0-9].*
+asset/*/*Delete*.*
+asset/*/*Working*.*
+asset/*/*Tmp*.*
+asset/*/*job*.*

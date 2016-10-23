@@ -8,15 +8,18 @@ var gulp=require('gulp'),sass=require('gulp-sass'),uglify=require('gulp-uglify')
 // REQUIRE DATA
 var Package=JSON.parse(fs.readFileSync('package.json'));
 
-var Configuration = JSON.parse(fs.readFileSync(Package.configuration.build));
+var Build = JSON.parse(fs.readFileSync(Package.configuration.build));
 // GULP
-var productionRoot=Configuration.common.production.root;
-var developmentRoot=Configuration.common.development.root;
-var developmentAssets=path.join(developmentRoot,Configuration.common.development.assets);
+var configRoot=Build.common.config.root;
+var distRoot=Build.common.dist.root;
+var assetRoot=Build.common.asset.root;
+var devRoot=Build.common.dev.root;
+var devLib=path.join(devRoot,Build.common.dev.lib);
+
 //SASS
 gulp.task('sass', function () {
   return gulp
-  .src(path.join(developmentAssets,'sass','*([^A-Z0-9-]).scss'))//!([^A-Z0-9-])
+  .src(path.join(assetRoot,'sass','*([^A-Z0-9-]).scss'))//!([^A-Z0-9-])
   .pipe(sass(
     {
       debugInfo: true,
@@ -26,11 +29,11 @@ gulp.task('sass', function () {
       outputStyle: 'expanded'//compressed, expanded
     }
   ).on('error', sass.logError))
-  .pipe(gulp.dest(path.join(developmentRoot,'css')));
+  .pipe(gulp.dest(path.join(devRoot,'css')));
 });
 //Scripts
 gulp.task('scripts',function(){
-  gulp.src(path.join(developmentAssets,'js','*([^A-Z0-9-]).js'))
+  gulp.src(path.join(assetRoot,'js','*([^A-Z0-9-]).js'))
   //.pipe(concat('all.min.js'))
   .pipe(include().on('error', console.log))
   .pipe(uglify({
@@ -42,11 +45,11 @@ gulp.task('scripts',function(){
     //outSourceMap: true,
     preserveComments:'license'
   }).on('error', console.log))
-  .pipe(gulp.dest(path.join(developmentRoot,'js')));
+  .pipe(gulp.dest(path.join(devRoot,'js')));
 });
 // fileSystask
 gulp.task('filesystask',function(){
-  gulp.src(path.join(developmentAssets,'filesystask','fileSystask.js'))
+  gulp.src(path.join(assetRoot,'filesystask','fileSystask.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -57,12 +60,11 @@ gulp.task('filesystask',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('filesystask.min.js'))
-  // .pipe(gulp.dest(path.join(developmentAssets,'filesystask')))
-  .pipe(gulp.dest(path.join(productionRoot)));
+  .pipe(gulp.dest(path.join(distRoot)));
 });
 // fileHtmltask
 gulp.task('filehtmltask',function(){
-  gulp.src(path.join(developmentAssets,'filehtmltask','fileHtmltask.js'))
+  gulp.src(path.join(assetRoot,'filehtmltask','fileHtmltask.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -73,12 +75,11 @@ gulp.task('filehtmltask',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('filehtmltask.min.js'))
-  // .pipe(gulp.dest(path.join(developmentAssets,'filehtmltask')))
-  .pipe(gulp.dest(path.join(productionRoot)));
+  .pipe(gulp.dest(path.join(distRoot)));
 });
 // scriptive
 gulp.task('scriptive',function(){
-  gulp.src(path.join(developmentAssets,'scriptive','scriptive.js'))
+  gulp.src(path.join(assetRoot,'scriptive','scriptive.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -89,16 +90,16 @@ gulp.task('scriptive',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('scriptive.min.js'))
-  .pipe(gulp.dest(path.join(developmentRoot,'lib')))
-  .pipe(gulp.dest(path.join(productionRoot)));
+  .pipe(gulp.dest(path.join(devRoot,devLib)))
+  .pipe(gulp.dest(path.join(distRoot)));
 });
 //WATCH
 gulp.task('watch', function() {
-  gulp.watch(path.join(developmentAssets,'sass','*.scss'), ['sass']);
-  gulp.watch(path.join(developmentAssets,'js','*.js'), ['scripts']);
-  gulp.watch(path.join(developmentAssets,'filesystask','*.js'), ['filesystask']);
-  gulp.watch(path.join(developmentAssets,'filehtmltask','*.js'), ['filehtmltask']);
-  gulp.watch(path.join(developmentAssets,'scriptive','*.js'), ['scriptive']);
+  gulp.watch(path.join(assetRoot,'sass','*.scss'), ['sass']);
+  gulp.watch(path.join(assetRoot,'js','*.js'), ['scripts']);
+  gulp.watch(path.join(assetRoot,'filesystask','*.js'), ['filesystask']);
+  gulp.watch(path.join(assetRoot,'filehtmltask','*.js'), ['filehtmltask']);
+  gulp.watch(path.join(assetRoot,'scriptive','*.js'), ['scriptive']);
 });
 //TASK
 gulp.task('default', ['watch']);

@@ -30,7 +30,7 @@ var Package = JSON.parse(fs.readFileSync('package.json'));
 
 // console.log(Package.configuration.build);
 var Setting = {},
-Configuration={},
+Build={},
 Task = {
   todo: [],
   init: function() {
@@ -38,7 +38,7 @@ Task = {
     if (Package.hasOwnProperty('configuration')) {
       if (Package.configuration.hasOwnProperty('build')) {
         try {
-          Configuration = JSON.parse(fs.readFileSync(Package.configuration.build));
+          Build = JSON.parse(fs.readFileSync(Package.configuration.build));
           this.start();
         }
         catch (e) {
@@ -52,11 +52,11 @@ Task = {
     }
   },
   start: function() {
-    Setting = Configuration.common;
+    Setting = Build.common;
     // Setting.unique = Setting.unique.replace('.n', Package.name).replace('.o', Argv.os).replace('.v', Setting.version).replace('.b', Setting.build);
-    Setting.development.dir = path.join(Setting.development.root);
-    Setting.development.lib = path.join(Setting.development.root,Setting.development.lib);
-    // console.log(Setting.development.dir);
+    Setting.dev.dir = path.join(Setting.dev.root);
+    Setting.dev.lib = path.join(Setting.dev.root,Setting.dev.lib);
+    // console.log(Setting.dev.dir);
     for(var file in Setting.library) { 
       this.todo.push(file);
     //  if (Setting.library.hasOwnProperty(file)) {
@@ -72,7 +72,7 @@ Task = {
       var file = this.todo.shift();
       // console.log(file,this.todo);
       var urlDownload = Setting.library[file];
-      var urlSave = path.join(Setting.development.lib,file);
+      var urlSave = path.join(Setting.dev.lib,file);
       got(urlDownload).then(response => {
         /*
         got.stream(urlDownload).on('error', error=>{

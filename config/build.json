@@ -11,12 +11,20 @@
       "localforage.min.js":"https://mozilla.github.io/localForage/localforage.min.js",
       "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
     },
-    "development": {
+    "asset": {
+      "root": "asset"
+    },
+    "config": {
+      "root": "config"
+    },
+    "image": {
+      "root": "image"
+    },
+    "dev": {
       "root": "dev",
-      "assets": "assets",
       "lib": "lib"
     },
-    "production": {
+    "dist": {
       "root": "dist",
       "main": "index",
       "type": "app",
@@ -53,7 +61,7 @@
   },
   "individual": {
     "chrome": {
-      "production": {
+      "dist": {
         "file": {
           "laisiangtho": {
             "(json)": true
@@ -71,7 +79,7 @@
       }
     },
     "ios": {
-      "production": {
+      "dist": {
         "file": {
           "css": {
             "(desktop|web|android)": false
@@ -87,7 +95,7 @@
       }
     },
     "android": {
-      "production": {
+      "dist": {
         "file": {
           "css": {
             "(desktop|web|ios)": false
@@ -103,10 +111,10 @@
       }
     },
     "default": {
-      "development": {
+      "dev": {
         "main": "default"
       },
-      "production": {
+      "dist": {
         "type": "web",
         "file": {
           "css": {
@@ -123,10 +131,10 @@
       }
     },
     "web": {
-      "development": {
+      "dev": {
         "main": "default"
       },
-      "production": {
+      "dist": {
         "type": "web",
         "file": {
           "css": {
