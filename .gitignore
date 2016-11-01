@@ -44,6 +44,7 @@ Temporary Items
 # =========================
 #CUSTOM
 # =========================
+public/*
 dist/*
 !dist/*.js
 node_modules/
@@ -53,13 +54,15 @@ delete
 output
 *tmp*/
 *delete.*
+*working.*
 *tmp.*
-*Copy.*
+*copy.*
+*job.*
 dev/lib/*.js
 dev/js/*.js
 dev/css/*.css
 asset/*/*[0-9].*
-asset/*/*Delete*.*
-asset/*/*Working*.*
-asset/*/*Tmp*.*
-asset/*/*job*.*
+#asset/*/*Delete*.*
+#asset/*/*Working*.*
+#asset/*/*Tmp*.*
+#asset/*/*job*.*

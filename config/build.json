@@ -11,6 +11,9 @@
       "localforage.min.js":"https://mozilla.github.io/localForage/localforage.min.js",
       "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
     },
+    "public": {
+      "root": "public"
+    },
     "asset": {
       "root": "asset"
     },
@@ -57,6 +60,21 @@
           "([A-Z]|\\d)": false
         }
       }
+    }
+  },
+  "developer": {
+    "sync":["asset","config","dev","dist","image"],
+    "asset":{
+      "js":true,
+      "less":true,
+      "sass":true
+    },
+    "config":true,
+    "dev":{
+      "css":true,
+      "js":true,
+      "img":true,
+      "lib":true
     }
   },
   "individual": {

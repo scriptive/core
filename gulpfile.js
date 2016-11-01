@@ -1,25 +1,25 @@
-//DEFAULT
-var path=require('path'),Argv=require('minimist')(process.argv);
-//COMMON PACKAGE
-var fs=require('fs-extra'),clc=require('cli-color'),extend=require('node.extend');
-//REQUIRE PACKAGE
-// ,minifyCss=require('gulp-minify-css')
-var gulp=require('gulp'),sass=require('gulp-sass'),uglify=require('gulp-uglify'),concat=require('gulp-concat'),include=require('gulp-include');
-// REQUIRE DATA
-var Package=JSON.parse(fs.readFileSync('package.json'));
-
-var Build = JSON.parse(fs.readFileSync(Package.configuration.build));
-// GULP
-var configRoot=Build.common.config.root;
-var distRoot=Build.common.dist.root;
-var assetRoot=Build.common.asset.root;
-var devRoot=Build.common.dev.root;
-var devLib=path.join(devRoot,Build.common.dev.lib);
-
+var gulp=require('gulp'),
+sass=require('gulp-sass'),
+uglify=require('gulp-uglify'),
+concat=require('gulp-concat'),
+include=require('gulp-include'),
+data=require('./dist/task')({
+  json:{
+    package:'package.json',
+    build:'config/build.json'
+  },
+  initial:function() {
+    if (this.status.success()){
+      this.distRoot=this.json.build.common.dist.root;
+      this.assetRoot=this.json.build.common.asset.root;
+      this.devRoot=this.json.build.common.dev.root;
+      this.devLib=path.join(this.devRoot,this.json.build.common.dev.lib);
+    }
+  }
+});
 //SASS
 gulp.task('sass', function () {
-  return gulp
-  .src(path.join(assetRoot,'sass','*([^A-Z0-9-]).scss'))//!([^A-Z0-9-])
+  this.src(path.join(data.assetRoot,'sass','*([^A-Z0-9-]).scss'))//!([^A-Z0-9-])
   .pipe(sass(
     {
       debugInfo: true,
@@ -29,11 +29,11 @@ gulp.task('sass', function () {
       outputStyle: 'expanded'//compressed, expanded
     }
   ).on('error', sass.logError))
-  .pipe(gulp.dest(path.join(devRoot,'css')));
+  .pipe(this.dest(path.join(data.devRoot,'css')));
 });
 //Scripts
 gulp.task('scripts',function(){
-  gulp.src(path.join(assetRoot,'js','*([^A-Z0-9-]).js'))
+  this.src(path.join(data.assetRoot,'js','*([^A-Z0-9-]).js'))
   //.pipe(concat('all.min.js'))
   .pipe(include().on('error', console.log))
   .pipe(uglify({
@@ -45,41 +45,11 @@ gulp.task('scripts',function(){
     //outSourceMap: true,
     preserveComments:'license'
   }).on('error', console.log))
-  .pipe(gulp.dest(path.join(devRoot,'js')));
+  .pipe(this.dest(path.join(data.devRoot,'js')));
 });
-// fileSystask
-gulp.task('filesystask',function(){
-  gulp.src(path.join(assetRoot,'filesystask','fileSystask.js'))
-  .pipe(include())
-  .pipe(uglify({
-    mangle:false,
-    output:{
-      beautify: false, comments:'license'
-    },
-    compress:true,
-    preserveComments:'license'
-  }).on('error', console.log))
-  .pipe(concat('filesystask.min.js'))
-  .pipe(gulp.dest(path.join(distRoot)));
-});
-// fileHtmltask
-gulp.task('filehtmltask',function(){
-  gulp.src(path.join(assetRoot,'filehtmltask','fileHtmltask.js'))
-  .pipe(include())
-  .pipe(uglify({
-    mangle:false,
-    output:{
-      beautify: false, comments:'license'
-    },
-    compress:true,
-    preserveComments:'license'
-  }).on('error', console.log))
-  .pipe(concat('filehtmltask.min.js'))
-  .pipe(gulp.dest(path.join(distRoot)));
-});
-// scriptive
+//startDeveloper
 gulp.task('scriptive',function(){
-  gulp.src(path.join(assetRoot,'scriptive','scriptive.js'))
+  this.src(path.join(data.assetRoot,'scriptive','scriptive.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -90,16 +60,48 @@ gulp.task('scriptive',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('scriptive.min.js'))
-  .pipe(gulp.dest(path.join(devRoot,devLib)))
-  .pipe(gulp.dest(path.join(distRoot)));
+  .pipe(this.dest(data.devLib))
+  .pipe(this.dest(data.devLib));
 });
-//WATCH
+// fileSystask
+gulp.task('filesystask',function(){
+  this.src(path.join(assetRoot,'filesystask','fileSystask.js'))
+  .pipe(include())
+  .pipe(uglify({
+    mangle:false,
+    output:{
+      beautify: false, comments:'license'
+    },
+    compress:true,
+    preserveComments:'license'
+  }).on('error', console.log))
+  .pipe(concat('filesystask.min.js'))
+  .pipe(this.dest(data.distRoot));
+});
+// fileHtmltask
+gulp.task('filehtmltask',function(){
+  this.src(path.join(data.assetRoot,'filehtmltask','fileHtmltask.js'))
+  .pipe(include())
+  .pipe(uglify({
+    mangle:false,
+    output:{
+      beautify: false, comments:'license'
+    },
+    compress:true,
+    preserveComments:'license'
+  }).on('error', console.log))
+  .pipe(concat('filehtmltask.min.js'))
+  .pipe(this.dest(data.distRoot));
+});
+//endDeveloper
 gulp.task('watch', function() {
-  gulp.watch(path.join(assetRoot,'sass','*.scss'), ['sass']);
-  gulp.watch(path.join(assetRoot,'js','*.js'), ['scripts']);
-  gulp.watch(path.join(assetRoot,'filesystask','*.js'), ['filesystask']);
-  gulp.watch(path.join(assetRoot,'filehtmltask','*.js'), ['filehtmltask']);
-  gulp.watch(path.join(assetRoot,'scriptive','*.js'), ['scriptive']);
+  this.watch(path.join(data.assetRoot,'sass','*.scss'), ['sass']);
+  this.watch(path.join(data.assetRoot,'js','*.js'), ['scripts']);
+  //scriptDeveloper
+  this.watch(path.join(data.assetRoot,'filesystask','*.js'), ['filesystask']);
+  this.watch(path.join(data.assetRoot,'filehtmltask','*.js'), ['filehtmltask']);
+  this.watch(path.join(data.assetRoot,'scriptive','*.js'), ['scriptive']);
+  //scriptDeveloper
 });
 //TASK
 gulp.task('default', ['watch']);

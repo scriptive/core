@@ -176,7 +176,7 @@
       todo:{
       }, 
       config:{
-        L:[],E:['Action'],T:[],
+        Meta:[],Execute:['Action'],T:[],
         // load, event, task
         Handler: 'click', On: 'fO', Hash: 'hashchange', Device: 'desktop', Platform: 'web', Layout: null, Browser: 'chrome',
         fileSystask:'Chrome', //temporary
@@ -229,7 +229,7 @@
         }
       },
       initiate:function(){
-        Config.E.each(function(i,v){
+        Config.Execute.each(function(i,v){
           i = (typeof v === 'object') ? Object.keys(v)[0] : v;
           app.root.execute.call(app.root,i.split(' '),v[i]);
         });
