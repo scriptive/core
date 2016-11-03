@@ -56,9 +56,9 @@ output
 *tmp.*
 *copy.*
 *job.*
-#dev/lib/*.js
-#dev/js/*.js
-#dev/css/*.css
+dev/lib/*.js
+dev/js/*.js
+dev/css/*.css
 asset/*/*[0-9].*
 #asset/*/*Delete*.*
 #asset/*/*Working*.*
