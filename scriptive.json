@@ -2,7 +2,7 @@
   "common": {
     "name": "appName",
     "unique": ".n-.o-.v-build-.b",
-    "version": "1.2.0",
+    "version": "1.0.0",
     "build": "2.1.23",
     "library": {
       "jquery.min.js":"http://code.jquery.com/jquery-3.1.1.min.js",
@@ -12,7 +12,8 @@
       "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
     },
     "public": {
-      "root": "public"
+      "root": "public",
+      "developer": "developer"
     },
     "asset": {
       "root": "asset"
@@ -29,6 +30,7 @@
     },
     "dist": {
       "root": "dist",
+      "dir": "public",
       "main": "index",
       "type": "app",
       "file": {
@@ -63,18 +65,72 @@
     }
   },
   "developer": {
-    "sync":["asset","config","dev","dist","image"],
+    "package.json":"packageJSON",
+    "scriptive.json":"scriptiveJSON",
+    "gulpfile.js":"gulpfileJS",
+    "cmd.bat":"copy",
     "asset":{
       "js":true,
       "less":true,
       "sass":true
     },
-    "config":true,
+    "config":{
+      "android":true,
+      "chrome":true,
+      "default":true,
+      "electron":true,
+      "ios":true
+    },
     "dev":{
-      "css":true,
-      "js":true,
-      "img":true,
-      "lib":true
+      "css":{
+        "README.md":"copy"
+      },
+      "fontello":{
+        "README.md":"copy",
+        "config.json":"fontelloConfigJSON"
+      },
+      "js":{
+        "README.md":"copy"
+      },
+      "img":{
+        "README.md":"copy"
+      },
+      "lib":{
+        "README.md":"copy",
+        "scriptive.min.js":"copy"
+      },
+      "android.app.mobile.html":"copy",
+      "android.app.tablet.html":"copy",
+      "android.html":"copy",
+      "android.web.mobile.html":"copy",
+      "android.web.tablet.html":"copy",
+      "chrome.app.desktop.html":"copy",
+      "chrome.html":"copy",
+      "default.html":"copy",
+      "default.web.desktop.html":"copy",
+      "desktop.Splash.html":"copy",
+      "ios.app.mobile.html":"copy",
+      "ios.app.tablet.html":"copy",
+      "ios.html":"copy",
+      "ios.web.mobile.html":"copy",
+      "ios.web.tablet.html":"copy",
+      "mobile.Splash.html":"copy",
+      "tablet.Splash.html":"copy"
+    },
+    "dist":{
+    },
+    "scripts":{
+      "task.js":"copy",
+      "build.js":"copy",
+      "download.js":"copy",
+      "main.js":"copy"
+    },
+    "image":{
+      "android":true,
+      "chrome":true,
+      "default":true,
+      "electron":true,
+      "ios":true
     }
   },
   "individual": {

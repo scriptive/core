@@ -1,7 +1,7 @@
-require('./../dist/task')({
+require('./../scripts/task')({
   json:{
     package:'package.json',
-    build:'config/build.json'
+    scriptive:'scriptive.json'
   },
   initial:function() {
     if (this.status.success()){
@@ -9,7 +9,7 @@ require('./../dist/task')({
     }
   },
   process:function() {
-    for(var file in this.json.build.common.library) { 
+    for(var file in this.json.scriptive.common.library) { 
       this.todo.push(file);
     }
     this.download(response=>{
@@ -19,8 +19,8 @@ require('./../dist/task')({
   download:function(callback){
     if (this.todo.length) {
       var file = this.todo.shift();
-      var fileDownload = this.json.build.common.library[file];
-      var jDev = this.json.build.common.dev;
+      var fileDownload = this.json.scriptive.common.library[file];
+      var jDev = this.json.scriptive.common.dev;
       var fileSave = path.join(jDev.root,jDev.lib,file);
       got(fileDownload).then(response => {
         fs.outputFile(fileSave, response.body, error => {

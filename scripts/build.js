@@ -1,13 +1,13 @@
-require('./../dist/task')({
+require('./../scripts/task')({
   json:{
     package:'package.json',
-    build:'config/build.json'
+    scriptive:'scriptive.json'
   },
   initial:function() {
     if (this.status.success()){
       if (Argv.os) {
-        if (this.json.build.individual.hasOwnProperty(Argv.os)) {
-          this.setting = extend(true, this.json.build.common, this.json.build.individual[Argv.os]);
+        if (this.json.scriptive.individual.hasOwnProperty(Argv.os)) {
+          this.setting = extend(true, this.json.scriptive.common, this.json.scriptive.individual[Argv.os]);
           if (!this.setting.dev.main) this.setting.dev.main = Argv.os;
           this.setting.os = Argv.os;
           //Package.name,process.env.npm_package_name
@@ -16,7 +16,7 @@ require('./../dist/task')({
           if (Argv.dir) {
             this.setting.dist.dir = path.join(Argv.dir);
           } else {
-            this.setting.dist.dir = path.join(this.setting.dist.root, this.setting.unique);
+            this.setting.dist.dir = path.join(this.setting.dist.dir, this.setting.unique);
           }
           this.process();
         } else {

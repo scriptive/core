@@ -28,7 +28,8 @@ var task = {
       DataCopied: "Data Copied...",
       ENOENT: "{msg} does not exist, and skipped!",
       Ok: "Ok: {msg}",
-      Error: "--{msg}"
+      Error: "--{msg}",
+      Completed: "Task Completed!"
     },
     string:function(q) {
       if (typeof q === 'object') {

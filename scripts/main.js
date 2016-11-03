@@ -2,7 +2,7 @@
 /*
 var test = require('test');
 */
-var Task = require('./../dist/task')({
+var Task = require('./../scripts/task')({
   initial:function() {
     console.log('what to do?');
   }

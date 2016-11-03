@@ -3,17 +3,15 @@ sass=require('gulp-sass'),
 uglify=require('gulp-uglify'),
 concat=require('gulp-concat'),
 include=require('gulp-include'),
-data=require('./dist/task')({
+data=require('./scripts/task')({
   json:{
     package:'package.json',
-    build:'config/build.json'
+    scriptive:'scriptive.json'
   },
   initial:function() {
     if (this.status.success()){
-      this.distRoot=this.json.build.common.dist.root;
-      this.assetRoot=this.json.build.common.asset.root;
-      this.devRoot=this.json.build.common.dev.root;
-      this.devLib=path.join(this.devRoot,this.json.build.common.dev.lib);
+      this.assetRoot=this.json.scriptive.common.asset.root;
+      this.devRoot=this.json.scriptive.common.dev.root;
     }
   }
 });
@@ -60,8 +58,9 @@ gulp.task('scriptive',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('scriptive.min.js'))
-  .pipe(this.dest(data.devLib))
-  .pipe(this.dest(data.devLib));
+  .pipe(this.dest(data.json.scriptive.common.dist.root))
+  .pipe(this.dest(path.join(data.devRoot,data.json.scriptive.common.dev.lib)));
+  
 });
 // fileSystask
 gulp.task('filesystask',function(){
@@ -76,7 +75,7 @@ gulp.task('filesystask',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('filesystask.min.js'))
-  .pipe(this.dest(data.distRoot));
+  .pipe(this.dest(data.json.scriptive.common.dist.root));
 });
 // fileHtmltask
 gulp.task('filehtmltask',function(){
@@ -91,7 +90,7 @@ gulp.task('filehtmltask',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('filehtmltask.min.js'))
-  .pipe(this.dest(data.distRoot));
+  .pipe(this.dest(data.json.scriptive.common.dist.root));
 });
 //endDeveloper
 gulp.task('watch', function() {

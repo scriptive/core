@@ -2,17 +2,17 @@
   "name": "scriptive",
   "version": "1.0.0",
   "description": "javascript application service",
-  "main": "./dist/task.main.js",
+  "main": "./scripts/main.js",
   "scripts": {
-    "download": "node ./dist/task.download.js",
-    "build": "node ./dist/task.build.js",
-    "build-ios": "node ./dist/task.build.js --os=ios",
-    "build-android": "node ./dist/task.build.js --os=android",
-    "build-default": "node ./dist/task.build.js --os=default",
-    "build-electron": "node ./dist/task.build.js --os=electron",
-    "build-chrome": "node ./dist/task.build.js --os=chrome",
-    "build-demo": "node ./dist/task.build.js --os=web --dir=docs",
-    "build-developer": "node ./dist/task.developer.js"
+    "download": "node ./scripts/download.js",
+    "build": "node ./scripts/build.js",
+    "build-ios": "node ./scripts/build.js --os=ios",
+    "build-android": "node ./scripts/build.js --os=android",
+    "build-default": "node ./scripts/build.js --os=default",
+    "build-electron": "node ./scripts/build.js --os=electron",
+    "build-chrome": "node ./scripts/build.js --os=chrome",
+    "build-demo": "node ./scripts/build.js --os=web --dir=docs",
+    "build-developer": "node ./scripts/developer.js"
   },
   "keywords": [
     "language"
