@@ -1,3 +1,3 @@
 # Javascript
 ## Update js dependencies
-`gulp`
+`gulp` will do the works!

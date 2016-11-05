@@ -1,19 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget 
-	id="zotune.willsol.zo.laisiangtho.u1" 
-	version="1.1.9" 
-	android-versionCode="1.9.67" 
-	ios-CFBundleVersion="1967" 
+	id="<?>" 
+	version="<?>" 
+	android-versionCode="<?>" 
+	ios-CFBundleVersion="<?>" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:cdv="http://cordova.apache.org/ns/1.0">
-	<name>Lai Siangtho</name>
-	<description>
-		the Holy Bible in languages
-	</description>
-	<author email="khensolomon@gmail.com" href="http://www.laisiangtho.com">
-		ZOMI.TODAY
-	</author>
-	<content src="ios.html" />
+	<name>Appname</name>
+	<description></description>
+	<author email="<email>" href="<url>"></author>
+	<content src="<index.html>" />
 	<plugin name="cordova-plugin-whitelist" version="1" />
 	<plugin name="File" value="org.apache.cordova.FileUtils" />
 	<plugin name="FileTransfer" value="org.apache.cordova.FileTransfer" />

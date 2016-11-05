@@ -45,6 +45,7 @@ Temporary Items
 #CUSTOM
 # =========================
 public/*
+!public/*.md
 node_modules/
 backup
 nbproject

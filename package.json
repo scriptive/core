@@ -1,6 +1,6 @@
 {
   "name": "scriptive",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "javascript application service",
   "main": "./scripts/main.js",
   "scripts": {
@@ -12,7 +12,8 @@
     "build-electron": "node ./scripts/build.js --os=electron",
     "build-chrome": "node ./scripts/build.js --os=chrome",
     "build-demo": "node ./scripts/build.js --os=web --dir=docs",
-    "build-developer": "node ./scripts/developer.js"
+    "developer": "node ./scripts/developer.js",
+    "test": "node ./scripts/test.Delete.js"
   },
   "keywords": [
     "language"
@@ -30,7 +31,6 @@
   "dependencies": {},
   "devDependencies": {
     "cli-color": "^1.1.0",
-    "download": "^5.0.2",
     "fs-extra": "^0.30.0",
     "got": "^6.5.0",
     "gulp": "^3.9.1",

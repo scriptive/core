@@ -1,9 +1,9 @@
 {
   "common": {
-    "name": "appName",
+    "name": "scriptive",
     "unique": ".n-.o-.v-build-.b",
-    "version": "1.0.0",
-    "build": "2.1.23",
+    "version": "1.0.1",
+    "build": "1.2.0",
     "library": {
       "jquery.min.js":"http://code.jquery.com/jquery-3.1.1.min.js",
       "jquery.ui.min.js":"http://code.jquery.com/ui/1.12.0/jquery-ui.min.js",
@@ -12,8 +12,7 @@
       "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
     },
     "public": {
-      "root": "public",
-      "developer": "developer"
+      "root": "public"
     },
     "asset": {
       "root": "asset"
@@ -36,6 +35,9 @@
       "file": {
         "img": {
           "png$": true
+        },
+        "font": {
+          "json$": false
         },
         "fontmya": {
           "(.*)": true
@@ -64,6 +66,14 @@
       }
     }
   },
+  "project": {
+    "eba":{
+      "root":"public/eba"
+    },
+    "lst":{
+      "root":"public/lst"
+    }
+  },
   "developer": {
     "package.json":"packageJSON",
     "scriptive.json":"scriptiveJSON",
@@ -85,7 +95,7 @@
       "css":{
         "README.md":"copy"
       },
-      "fontello":{
+      "font":{
         "README.md":"copy",
         "config.json":"fontelloConfigJSON"
       },
@@ -108,14 +118,11 @@
       "chrome.html":"copy",
       "default.html":"copy",
       "default.web.desktop.html":"copy",
-      "desktop.Splash.html":"copy",
       "ios.app.mobile.html":"copy",
       "ios.app.tablet.html":"copy",
       "ios.html":"copy",
       "ios.web.mobile.html":"copy",
-      "ios.web.tablet.html":"copy",
-      "mobile.Splash.html":"copy",
-      "tablet.Splash.html":"copy"
+      "ios.web.tablet.html":"copy"
     },
     "dist":{
     },
@@ -162,8 +169,8 @@
             "(desktop|web|chrome|android)": false
           },
           "root": {
-            "(ios|app)": true,
-            "(web)": false
+            "(desktop|web|android)": false,
+            "(ios|app)": true
           }
         }
       }

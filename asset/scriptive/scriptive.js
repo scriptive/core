@@ -147,6 +147,10 @@
         }
         return file;
       },
+      append:function(){
+        Config.Meta = this.oblige(Config.Meta).concat(app.device.agent());
+        this.attach();
+      },
       attach:function(){
         var o = this, x = Config.Meta.shift(), y = x.type, url = (x.dir || o.locale[y].dir) + x.name + o.locale[y].extension,
         req = doc.createElement(y);
@@ -154,22 +158,30 @@
           req[i] = v || url;
         });
         req.onload = function() {
-          Config.msg.info.innerHTML=x.name;
-          // doc.querySelector(Config.msg.info).innerHTML=x.name;
+          app.root.notification(x.name);
           if (Config.Meta.length) { 
             o.attach();
           } else {
-            app.root.listen();
+            o.listen();
           }
         };
         doc.head.appendChild(req);
         //doc.getElementsByTagName('head')[0].appendChild(req);
       },
-      append:function(){
-        // app.meta.oblige(Config.Meta).concat(app.device.agent())
-        // app.meta.attach(callback);
-        Config.Meta = this.oblige(Config.Meta).concat(app.device.agent());
-        this.attach();
+      listen:function(){
+        app.root.notification('class','icon-database');
+        if (Config.isCordova) {
+          app.root.notification('getting Device ready');
+          doc.addEventListener("deviceready", this.initiate, false);
+        } else {
+          this.initiate();
+        }
+      },
+      initiate:function(){
+        Config.Execute.each(function(i,v){
+          i = (typeof v === 'object') ? Object.keys(v)[0] : v;
+          app.root.execute.call(app.root,i.split(' '),v[i]);
+        });
       }
     },
     root:{
@@ -178,7 +190,8 @@
       config:{
         Meta:[],Execute:['Action'],T:[],
         // load, event, task
-        Handler: 'click', On: 'fO', Hash: 'hashchange', Device: 'desktop', Platform: 'web', Layout: null, Browser: 'chrome',
+        Handler: ('ontouchstart' in document.documentElement ? "touchstart" : "click"),
+        On: 'fO', Hash: 'hashchange', Device: 'desktop', Platform: 'web', Layout: null, Browser: 'chrome',
         fileSystask:'Chrome', //temporary
         Orientation: {change: 'D1699',landscape: 'landscape',portrait: 'portrait'},
         note: {}, lang: {}, query: {},
@@ -200,39 +213,29 @@
         version:'2.1.23.2016.1.5'
       },
       document:function(response){
-        Object.assign(response,Object.create({
-          setting: {
-            value: {}, enumerable: true, writable: true
-          },
-          ready: {
-            value: false, enumerable: true, writable: true
-          }
-        }));
+        // Object.assign.call(response, {config: {}});
+        response.merge({config: {}});
         Config = this.config.merge(response.config);
         app.ready(function(event){
-          // app.fn.assign();
-          // this, event, object
           Config.Orientation.evt = (Object.prototype.hasOwnProperty.call(window, "onorientationchange")) ? "orientationchange" : "resize";
-          response.ready.call(app.root,event);
+          if (response.hasOwnProperty('ready')){
+            response.ready.call(app.root,event);
+          }
+          if (typeof Config.msg.info == 'string'){
+            Config.msg.info = doc.querySelector(Config.msg.info);
+          }
+          app.meta.append();
         });
       },
-      initial:function(){
-        app.meta.append();
-      },
-      listen:function(){
-        Config.msg.info.setAttribute('class','icon-database');
-        if (Config.isCordova) {
-          Config.msg.info.innerHTML='getting Device ready';
-          doc.addEventListener("deviceready", this.initiate, false);
-        } else {
-          this.initiate();
+      notification:function(){
+        if (this.config.msg.info !== null) {
+          if (arguments.length == 1){
+            this.config.msg.info.innerHTML=arguments[0];
+          } else {
+            this.config.msg.info.setAttribute(arguments[0],arguments[1]);
+          }
+          return this.config.msg.info;
         }
-      },
-      initiate:function(){
-        Config.Execute.each(function(i,v){
-          i = (typeof v === 'object') ? Object.keys(v)[0] : v;
-          app.root.execute.call(app.root,i.split(' '),v[i]);
-        });
       },
       execute:function(x,y) {
         var i=x.shift();
@@ -264,13 +267,10 @@
         arguments[0].each(function(i,v){
           win[v] = doc.querySelector('meta[name=0]'.replace(0,v)).getAttribute('content');
         });
-      },
-      ready:function(){
-        console.log('ready');
-      },
-      tmp:function(){
-        console.log('tmp');
       }
+      // tmp:function(){
+      //   console.log('tmp');
+      // }
     }
   };
   win[os] = function(a){

@@ -10,8 +10,14 @@ data=require('./scripts/task')({
   },
   initial:function() {
     if (this.status.success()){
-      this.assetRoot=this.json.scriptive.common.asset.root;
-      this.devRoot=this.json.scriptive.common.dev.root;
+      // gulp --dir=eba
+      if (Argv.dir) {
+        this.assetRoot= path.join(this.json.scriptive.common.public.root,Argv.dir,this.json.scriptive.common.asset.root);
+        this.devRoot= path.join(this.json.scriptive.common.public.root,Argv.dir,this.json.scriptive.common.dev.root);
+      } else {
+        this.assetRoot=this.json.scriptive.common.asset.root;
+        this.devRoot=this.json.scriptive.common.dev.root;
+      }
     }
   }
 });
@@ -47,7 +53,7 @@ gulp.task('scripts',function(){
 });
 //startDeveloper
 gulp.task('scriptive',function(){
-  this.src(path.join(data.assetRoot,'scriptive','scriptive.js'))
+  this.src(path.join(data.json.scriptive.common.asset.root,'scriptive','scriptive.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -60,11 +66,10 @@ gulp.task('scriptive',function(){
   .pipe(concat('scriptive.min.js'))
   .pipe(this.dest(data.json.scriptive.common.dist.root))
   .pipe(this.dest(path.join(data.devRoot,data.json.scriptive.common.dev.lib)));
-  
 });
 // fileSystask
 gulp.task('filesystask',function(){
-  this.src(path.join(assetRoot,'filesystask','fileSystask.js'))
+  this.src(path.join(data.json.scriptive.common.asset.root,'filesystask','fileSystask.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -79,7 +84,7 @@ gulp.task('filesystask',function(){
 });
 // fileHtmltask
 gulp.task('filehtmltask',function(){
-  this.src(path.join(data.assetRoot,'filehtmltask','fileHtmltask.js'))
+  this.src(path.join(data.json.scriptive.common.asset.root,'filehtmltask','fileHtmltask.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -97,9 +102,9 @@ gulp.task('watch', function() {
   this.watch(path.join(data.assetRoot,'sass','*.scss'), ['sass']);
   this.watch(path.join(data.assetRoot,'js','*.js'), ['scripts']);
   //scriptDeveloper
-  this.watch(path.join(data.assetRoot,'filesystask','*.js'), ['filesystask']);
-  this.watch(path.join(data.assetRoot,'filehtmltask','*.js'), ['filehtmltask']);
-  this.watch(path.join(data.assetRoot,'scriptive','*.js'), ['scriptive']);
+  this.watch(path.join(data.json.scriptive.common.asset.root,'filesystask','*.js'), ['filesystask']);
+  this.watch(path.join(data.json.scriptive.common.asset.root,'filehtmltask','*.js'), ['filehtmltask']);
+  this.watch(path.join(data.json.scriptive.common.asset.root,'scriptive','*.js'), ['scriptive']);
   //scriptDeveloper
 });
 //TASK

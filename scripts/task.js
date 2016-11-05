@@ -4,9 +4,7 @@ var path = require('path'),
 // IDEA: COMMON modules
 var fs = require('fs-extra'),
     clc = require('cli-color'),
-    extend = require('node.extend'),
-    download = require('download'),
-    got = require('got');
+    extend = require('node.extend');
 // TODO: task
 var task = {
   todo:[],
@@ -20,15 +18,24 @@ var task = {
         OS : "No OS specified: {-- --os=?}",
         Config:"Package contains no configuration!",
         Build: "Package->configuration has no 'build' specified!",
-        File: "file does not exist!"
+        File: "file does not exist!",
+        Dir:'Directory not exists!'
+      },
+      Yes:{
+        Dir:'Directory created!',
+        Empty:'Directory emtpy!'
       },
       Invalid:{
-        OS : "the specified: {os} is not valid"
+        OS : "the specified: {os} is invalid!"
       },
+      Create:'Obj created!',
+      Empty:'Obj emptied!',
+      Exists:'Obj exists!',
       DataCopied: "Data Copied...",
       ENOENT: "{msg} does not exist, and skipped!",
       Ok: "Ok: {msg}",
       Error: "--{msg}",
+      Processing: "Task Processing...",
       Completed: "Task Completed!"
     },
     string:function(q) {
@@ -60,27 +67,59 @@ var task = {
       console.log(clc.magenta(this.string(q)));
     }
   },
-  // initial:function() {
-  //   this.status.msgDefault(this.status.msg.No.Init);
-  // }
+  createDirectory:function(dir, callback, empty) {
+    dir.Exists(err =>{
+      if (err) {
+        // NOTE: empty exists directory
+        if (empty) {
+          dir.Empty(err => {
+            if (err) {
+              this.status.exit(err);
+            } else {
+              callback(this.status.msg.Empty.replace('Obj', dir));
+            }
+          });
+        } else {
+          callback(this.status.msg.Exists.replace('Obj', dir));
+        }
+      } else {
+        // NOTE: create new directory
+        dir.Create(err => {
+          if (err) {
+            this.status.exit(err);
+          } else {
+            callback(this.status.msg.Create.replace('Obj', dir));
+          }
+        });
+      }
+    });
+  }
 };
-module.exports = function(Options){
-  // var self = this;
+module.exports = function(Config){
   this.path = path;
   this.Argv = Argv;
   this.fs = fs;
   this.clc = clc;
   this.extend = extend;
-  this.download = download;
-  this.got = got;
-  if (Options.hasOwnProperty('json')){
-    for (var fileName in Options.json) {
-      if (Options.json.hasOwnProperty(fileName)) {
+  if (Config.hasOwnProperty('json')){
+    for (var file in Config.json) {
+      if (Config.json.hasOwnProperty(file)) {
         try {
-          Options.json[fileName] = JSON.parse(fs.readFileSync(Options.json[fileName]));
+          var fileName = Config.json[file];
+          Config.json[file] = JSON.parse(fs.readFileSync(Config.json[file]));
+          if (Argv.pro && Config.json[file].project && Config.json[file].project[Argv.pro]) {
+            // Ok: argument, project in json, Directory?
+            Config.json[file].project.root = path.join(Config.json[file].project[Argv.pro].root);
+            try {
+              extend(true,Config.json[file],JSON.parse(fs.readFileSync(path.join(Config.json[file].project.root,fileName))));
+            } catch(e) {
+              task.status.warns.push(task.status.msg.No.File.replace('file', fileName));
+            }
+          }
         } catch (e) {
-          Options.json[fileName] = task.status.msg.No.File.replace('file', Options.json[fileName]);
-          task.status.error.push(Options.json[fileName]);
+          console.log(e);
+          Config.json[file] = task.status.msg.No.File.replace('file', Config.json[file]);
+          task.status.error.push(Config.json[file]);
         }
       }
     }
@@ -112,7 +151,7 @@ module.exports = function(Options){
     },
     Copy: {
       value: function(callback) {
-        fs.copy(this.src.toString(), this.des.toString(), function(error) {
+        fs.copy(this.src.toString(), this.des.toString(),{replace:true},function(error) {
           callback(error);
         });
       }
@@ -144,7 +183,7 @@ module.exports = function(Options){
       }
     }
   });
-  extend(true,task,Options);
+  extend(true,task,Config);
   if (task.hasOwnProperty('id')){
     this[task.id] = task;
   }
