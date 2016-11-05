@@ -8,6 +8,7 @@ require('./../scripts/task')({
       // npm run developer -- --dir=../scriptive.developer
       // npm run developer -- --pro=lst
       // npm run developer -- --pro=lst --dir=../scriptive.developer
+      // npm run developer -- --pro=lst --dir=test
       // npm run developer -- --pro=lst --dir=../scriptive.laisiangtho
       if (Argv.dir) {
         Argv.dir = path.join(Argv.dir);

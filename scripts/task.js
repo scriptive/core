@@ -110,6 +110,10 @@ module.exports = function(Config){
           if (Argv.pro && Config.json[file].project && Config.json[file].project[Argv.pro]) {
             // Ok: argument, project in json, Directory?
             Config.json[file].project.root = path.join(Config.json[file].project[Argv.pro].root);
+            // console.log('asdfasd',path.join(Config.json[file].project[Argv.pro].root,'package.json'));
+            // path.join(Config.json[file].project[Argv.pro].root,'package.json').Exists(function(err){
+            //   console.log('asdfasd',err);
+            // });
             try {
               extend(true,Config.json[file],JSON.parse(fs.readFileSync(path.join(Config.json[file].project.root,fileName))));
             } catch(e) {
@@ -117,8 +121,7 @@ module.exports = function(Config){
             }
           }
         } catch (e) {
-          console.log(e);
-          Config.json[file] = task.status.msg.No.File.replace('file', Config.json[file]);
+          Config.json[file] = task.status.msg.No.File.replace('file', fileName);
           task.status.error.push(Config.json[file]);
         }
       }
@@ -128,9 +131,7 @@ module.exports = function(Config){
     Exists: {
       value: function(callback) {
         // HACK: callback(fs.existsSync(this.toString()));
-        fs.exists(this.toString(), function(error) {
-          callback(error);
-        });
+        fs.exists(this.toString(), callback);
       }
     },
     Write: {

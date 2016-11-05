@@ -10,13 +10,13 @@ data=require('./scripts/task')({
   },
   initial:function() {
     if (this.status.success()){
-      // gulp --dir=eba
-      if (Argv.dir) {
-        this.assetRoot= path.join(this.json.scriptive.common.public.root,Argv.dir,this.json.scriptive.common.asset.root);
-        this.devRoot= path.join(this.json.scriptive.common.public.root,Argv.dir,this.json.scriptive.common.dev.root);
+      // gulp --pro=lst
+      if (this.json.scriptive.project && this.json.scriptive.project.root) {
+        this.assetRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.common.asset.root);
+        this.devRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.common.dev.root);
       } else {
-        this.assetRoot=this.json.scriptive.common.asset.root;
-        this.devRoot=this.json.scriptive.common.dev.root;
+        this.assetRoot = path.join(this.json.scriptive.common.asset.root);
+        this.devRoot = path.join(this.json.scriptive.common.dev.root);
       }
     }
   }

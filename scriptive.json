@@ -5,11 +5,6 @@
     "version": "1.0.1",
     "build": "1.2.0",
     "library": {
-      "jquery.min.js":"http://code.jquery.com/jquery-3.1.1.min.js",
-      "jquery.ui.min.js":"http://code.jquery.com/ui/1.12.0/jquery-ui.min.js",
-      "jquery.ui.touch-punch.min.js": "https://raw.githubusercontent.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js",
-      "localforage.min.js":"https://mozilla.github.io/localForage/localforage.min.js",
-      "google-analytics-bundle.js":"https://raw.githubusercontent.com/GoogleChrome/chrome-platform-analytics/master/google-analytics-bundle.js"
     },
     "public": {
       "root": "public"
@@ -39,18 +34,6 @@
         "font": {
           "json$": false
         },
-        "fontmya": {
-          "(.*)": true
-        },
-        "fontello": {
-          "json$": false
-        },
-        "laisiangtho": {
-          "([A-Z])": false
-        },
-        "lang": {
-          "^[a-z]{2}.json$": true
-        },
         "lib": {
           "([A-Z]|\\d)": false
         },
@@ -70,8 +53,11 @@
     "eba":{
       "root":"public/eba"
     },
+    "lst-delete":{
+      "root":"public/lst-delete"
+    },
     "lst":{
-      "root":"public/lst"
+      "root":"public/laisiangtho"
     }
   },
   "developer": {
