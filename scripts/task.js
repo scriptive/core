@@ -35,6 +35,7 @@ var task = {
       ENOENT: "{msg} does not exist, and skipped!",
       Ok: "Ok: {msg}",
       Error: "--{msg}",
+      Danger: "Processing task might destory your works...",
       Processing: "Task Processing...",
       Completed: "Task Completed!"
     },
@@ -108,7 +109,7 @@ module.exports = function(Config){
           var fileName = Config.json[file];
           Config.json[file] = JSON.parse(fs.readFileSync(Config.json[file]));
           if (Argv.pro && Config.json[file].project && Config.json[file].project[Argv.pro]) {
-            // Ok: argument, project in json, Directory?
+            // Ok: argument, project in json, Directory? 
             Config.json[file].project.root = path.join(Config.json[file].project[Argv.pro].root);
             // console.log('asdfasd',path.join(Config.json[file].project[Argv.pro].root,'package.json'));
             // path.join(Config.json[file].project[Argv.pro].root,'package.json').Exists(function(err){

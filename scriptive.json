@@ -9,6 +9,9 @@
     "public": {
       "root": "public"
     },
+    "docs": {
+      "root": "docs"
+    },
     "asset": {
       "root": "asset"
     },

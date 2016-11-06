@@ -42,25 +42,40 @@ Network Trash Folder
 Temporary Items
 .apdisk
 # =========================
-#CUSTOM
+# CUSTOM
 # =========================
-public/*
-!public/*.md
-node_modules/
+/node_modules
+
 backup
 nbproject
 delete
 output
 *tmp*/
-*delete.*
-*working.*
-*tmp.*
-*copy.*
-*job.*
-dev/lib/*.js
-dev/js/*.js
-dev/css/*.css
+*delete*
+*working*
+*tmp*
+*copy*
+*job*
+
+
+# Public
+public/*
+!public/*.md
+
+# Assets
 asset/*/*[0-9].*
+
+# Development
+dev/*/**
+!dev/*/*.md
+!dev/*/*.json
+!dev/*/*.png
+
+#dev/*/*.js
+#dev/*/*.css
+#/dev/lib/*.js
+#/dev/js/*.js
+#/dev/css/*.css
 #asset/*/*Delete*.*
 #asset/*/*Working*.*
 #asset/*/*Tmp*.*

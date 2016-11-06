@@ -69,39 +69,52 @@
           win[Config.Orientation.evt] = this.orientate;
         }
         this.orientate();
-        var d=[], template=[], mobile='mobile', tablet='tablet', ios='ios', android='android';
+        var d=[], template=[], 
+          name ={
+            desktop:'desktop', tablet:'tablet', mobile:'mobile', 
+            ios:'ios', android:'android', defaults:'default',
+            web:'web', app:'app'
+          };
         Config.isCordova = this.platform.cordova();
         Config.isChrome = this.platform.chrome();
-        if (!Config.Platform) Config.Platform = 'web';
-        if (!Config.Deploy) Config.Deploy = 'desktop';
+        if (!Config.Platform) Config.Platform = name.web;
+        if (!Config.Screen) Config.Screen = name.desktop;
         if (this.platform.mobile()) {
-          Config.Deploy = 'mobile';
+          Config.Screen = name.mobile;
         } else if (this.platform.tablet()) {
-          Config.Deploy = 'tablet';
+          Config.Screen = name.tablet;
         } 
         // NOTE: for js, css
-        d.push(Config.Deploy, Config.Platform);
+        d.push(Config.Screen, Config.Platform);
         if (this.platform.ios()) {
-          Config.Device = 'ios';
+          Config.Device = name.ios;
         } else if (this.platform.android()) {
-          Config.Device = 'android';
+          Config.Device = name.android;
           // this.platform.hasMethodProperty(Config.Device)
         } else if (this.platform.hasMethodProperty(Config.Device)) {
           // NOTE: only deploying
         } else {
-          // NOTE: if Config.Deploy is not equal to desktop, {default.web.mobile} to avoid error, but need to update later
-          if (Config.Deploy != 'desktop') {
-            Config.Deploy = 'desktop';
-          }
-          Config.Device = 'default';
+          // NOTE: if Config.Screen is not equal to desktop, {default.web.mobile} to avoid error, but need to update later
+          // if (Config.Screen != name.desktop) {
+          //   Config.Screen = name.desktop;
+          // }
+          Config.Device = name.defaults;
         }
         d.push(Config.Device);
-        Config.DeviceTemplate = [Config.Device, Config.Platform, Config.Deploy];
+        Config.DeviceTemplate = [Config.Device, Config.Platform, Config.Screen];
         /*
-        chrome: Device:'desktop',Platform:'chrome', -> Device:'chrome',Platform:'app', Deploy:'desktop',
-        ios: Device:'ios',Platform:'app',Deploy:'mobile',
-        android: Device:'android',Platform:'app',Deploy:'mobile',
-        default: Device:'desktop',Platform:'web',
+        chrome: {
+          Device:'chrome', Platform:'app', Screen:'desktop'
+        }
+        ios: {
+          Device:'ios', Platform:'app', Screen:'mobile'
+        }
+        android: {
+          Device:'android', Platform:'app', Screen:'mobile'
+        }
+        default: {
+          Platform:'web'
+        }
         */
         var file = [], df = [];
         for (var i in d) {
@@ -228,11 +241,14 @@
         });
       },
       notification:function(){
+        // app.notification('msg');
+        // app.notification('class','blink');
+        // app.notification('msg','class','blink');
         if (this.config.msg.info !== null) {
-          if (arguments.length == 1){
-            this.config.msg.info.innerHTML=arguments[0];
+          if (arguments.length > 1){
+            this.config.msg.info.setAttribute(arguments[0],arguments[1])
           } else {
-            this.config.msg.info.setAttribute(arguments[0],arguments[1]);
+            this.config.msg.info.innerHTML=arguments[0];
           }
           return this.config.msg.info;
         }

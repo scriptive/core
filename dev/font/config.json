@@ -1,11 +1,11 @@
 {
-  "name": "laisiangtho",
+  "name": "scriptive",
   "css_prefix_text": "icon-",
   "css_use_suffix": false,
   "hinting": true,
   "units_per_em": 1000,
   "ascent": 850,
-  "copyright": "laisiangtho",
+  "copyright": "scriptive",
   "glyphs": [
     {
       "uid": "861ab06e455e2de3232ebef67d60d708",

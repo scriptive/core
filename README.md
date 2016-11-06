@@ -1,6 +1,18 @@
 # Scriptive - core
 Javascript Application Service
 
+### Template structure
+```javascript
+{  
+  Screen: [desktop, tablet, mobile],
+  // default Screen is "desktop"
+  Platform: [web, app],
+  // default Platform is "web"
+  Device: [chrome, ios, android]
+  // default Device is "default"
+}
+```
+Script & Style `screen.platform.device`, Template `device.platform.screen`
 ## Using
 ```javascript
 // require scriptive
@@ -14,7 +26,7 @@ Javascript Application Service
 app.document({
   config:{
     Execute:['load','handler'],
-    Device:'desktop',Platform:'web'
+    Platform:'web'
   },
   ready:function(){
     this.config.msg.info = document.querySelector("p#msg");
@@ -22,17 +34,17 @@ app.document({
 });
 // Chrome
 config:{
-  Device:'desktop',Platform:'app',Deploy:'chrome',
+  Device:'chrome', Platform:'app', Screen:'desktop',
   Handler:'click'
 }
 // iOS
 config:{
-  Device:'ios',Platform:'app',Deploy:'mobile',
+  Device:'ios', Platform:'app', Screen:'mobile',
   Handler:'vclick'
 }
 // Android
 config:{
-  Device:'android',Platform:'app',Deploy:'mobile',
+  Device:'android', Platform:'app', Screen:'mobile',
   Handler:'vclick'
 }
 ```
@@ -88,3 +100,5 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
   * ~~`npm run download`~~
   * ~~`npm run build`~~
   * ~~`npm run developer`~~
+
+
