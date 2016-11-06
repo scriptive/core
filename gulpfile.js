@@ -30,7 +30,7 @@ gulp.task('sass', function () {
       lineNumbers: true,
       errLogToConsole: true,
       //sourceComments: 'map',//normal, map
-      outputStyle: 'expanded'//compressed, expanded
+      outputStyle: 'compressed'//compressed, expanded
     }
   ).on('error', sass.logError))
   .pipe(this.dest(path.join(data.devRoot,'css')));
