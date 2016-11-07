@@ -48,7 +48,7 @@ require('./../scripts/task')({
       }
       */
       // npm run create -- --id=ok --dir=public/test/
-      if (Argv.id || Argv.root) {
+      if (Argv.id && Argv.dir) {
         this.command.connect.call(this,response=>{
           this.status.msgDefault(response);
           var scriptive_developer_extend = ['scriptive.json','asset','dev'];
