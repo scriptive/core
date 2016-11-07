@@ -1,54 +1,6 @@
 # Scriptive - core
 Javascript Application Service
 
-### Template structure
-```javascript
-{  
-  Screen: [desktop, tablet, mobile],
-  // default Screen is "desktop"
-  Platform: [web, app],
-  // default Platform is "web"
-  Device: [chrome, ios, android]
-  // default Device is "default"
-}
-```
-Script & Style `screen.platform.device`, Template `device.platform.screen`
-## Using
-```javascript
-// require scriptive
-(function(o) {
-  o.load = function(o) {
-    console.log("loaded");
-  };
-}(scriptive("app")));
-
-// Web
-app.document({
-  config:{
-    Execute:['load','handler'],
-    Platform:'web'
-  },
-  ready:function(){
-    this.config.msg.info = document.querySelector("p#msg");
-  }
-});
-// Chrome
-config:{
-  Device:'chrome', Platform:'app', Screen:'desktop',
-  Handler:'click'
-}
-// iOS
-config:{
-  Device:'ios', Platform:'app', Screen:'mobile',
-  Handler:'vclick'
-}
-// Android
-config:{
-  Device:'android', Platform:'app', Screen:'mobile',
-  Handler:'vclick'
-}
-```
-
 ## Task
 * Install devDependencies
   - `npm install --save-dev`
@@ -67,14 +19,14 @@ config:{
   - `gulp`
   - `gulp --pro=<?>`
 * Build for production
-  - `npm run build -- --os=<chrome> --pro=<?>  --dir=<?>`
-  - `npm run build-chrome`
-  - `npm run build-ios`
-  - `npm run build-android`
-  - `npm run build-default`
-  - `npm run build-electron`
-  - `npm run build-demo`
-  - `npm run developer`
+  - `npm run build -- --os=<ios|android|web|electron|chrome> --pro=<?>  --dir=<?>`
+    - `npm run ios`
+    - `npm run android`
+    - `npm run web`
+    - `npm run electron`
+    - `npm run chrome`
+    - `npm run docs`
+    - `npm run developer`
   
 ## Directories
   Directories configuration is defined in `scriptive.json`
@@ -93,12 +45,36 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
 * `npm run build -- --dir=<directory>`
 * `npm run build -- --os=web --dir=docs`
 
-`npm run build-demo` and `npm run build-default` are basically the same output, but `npm run build-demo` has different target `docs` which is for github.
+`npm run docs` and `npm run web` are basically the same output, but `npm run docs` has different target `docs` which is for github.
   
-### Todo
+## Todo
   * ~~`gulp`~~
   * ~~`npm run download`~~
   * ~~`npm run build`~~
   * ~~`npm run developer`~~
 
-
+```javascript
+// new Promise
+var thePromise = getPromises();
+thePromise.then(function(e){
+    // NOTE: when done
+});
+function getPromises(){
+  return new Promise(function(resolve, reject) {
+    // resolve('Ok');
+    reject('Error');
+  }).then(function(e) {
+      // NOTE: if success
+      // console.log(e);
+      return e;
+  }, function(e) {
+      // NOTE: if fail
+      // console.log(e);
+      return e;
+  }).then(function(e){
+      // NOTE: when done
+      // console.log(e);
+      return e;
+  });
+}
+```

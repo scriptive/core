@@ -6,12 +6,12 @@
   "scripts": {
     "download": "node ./scripts/download.js",
     "build": "node ./scripts/build.js",
-    "build-ios": "node ./scripts/build.js --os=ios",
-    "build-android": "node ./scripts/build.js --os=android",
-    "build-default": "node ./scripts/build.js --os=default",
-    "build-electron": "node ./scripts/build.js --os=electron",
-    "build-chrome": "node ./scripts/build.js --os=chrome",
-    "build-demo": "node ./scripts/build.js --os=web --dir=docs",
+    "ios": "node ./scripts/build.js --os=ios",
+    "android": "node ./scripts/build.js --os=android",
+    "web": "node ./scripts/build.js --os=default",
+    "electron": "node ./scripts/build.js --os=electron",
+    "chrome": "node ./scripts/build.js --os=chrome",
+    "docs": "node ./scripts/build.js --os=web --dir=docs",
     "developer": "node ./scripts/developer.js",
     "test": "node ./scripts/test.Delete.js"
   },

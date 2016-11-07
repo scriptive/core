@@ -222,7 +222,7 @@
             info: '#msg'
         }
       }, 
-      info:{
+      scriptive:{
         version:'2.1.23.2016.1.5'
       },
       document:function(response){

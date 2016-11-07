@@ -54,13 +54,13 @@
   },
   "project": {
     "eba":{
-      "root":"public/eba"
-    },
-    "lst-delete":{
-      "root":"public/lst-delete"
+      "root":"../scriptive.eba"
     },
     "lst":{
-      "root":"public/laisiangtho"
+      "root":"../scriptive.laisiangtho"
+    },
+    "lab":{
+      "root":"../scriptive.labu"
     }
   },
   "developer": {

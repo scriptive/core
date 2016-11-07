@@ -1,60 +1,91 @@
 # scriptive
 
-### Require
+## Require
 
 ```javascript
 scripting('app');
 ```
-### Create
+## Create
 
 ```javascript
-(function (o) {
+(function (app) {
+  ...
 }(app));
 ```
-### Save as above but merge
+
+## Require and Create
+
 ```javascript
-(function (o) {
+// Save as above but merge
+(function (app) {
+  ...
 }(scripting('app')));
 ```
 
-### Call
+## Calls
 
 ```javascript
 app.document({
   config:{
     Meta:{script:['data bible','data config']},
     E:[{'metalink':['api']},'load','watch'],
-    Device:'desktop',Platform:'web',
+    Platform:'web',
     Handler:'click',On:'fO'
   },
   ready:function(){
-    this.config.msg.info = document.querySelector("li#msg");
-    this.initial();
+    this.config.msg.info = document.querySelector("#msg");
   }
 });
+```
+
+## Template structure
+
+```javascript
+{  
+  Screen: [desktop, tablet, mobile],
+  // default Screen is "desktop"
+  Platform: [web, app],
+  // default Platform is "web"
+  Device: [chrome, ios, android]
+  // default Device is "default"
+}
+
+// Web
+config:{
+  Platform:'web',
+  Handler:'click'
+}
+// Chrome
+config:{
+  Device:'chrome', Platform:'app', Screen:'desktop',
+  Handler:'click'
+}
+// iOS
+config:{
+  Device:'ios', Platform:'app', Screen:'mobile'
+}
+// Android
+config:{
+  Device:'android', Platform:'app', Screen:'mobile'
+}
 
 default:{
-  Meta:{script:['data bible','data config']},
-  E:[{'metalink':['api']},'load','watch'],
-  Device:'desktop',Platform:'web',
-  Handler:'click',On:'fO'
+  Device:'desktop',Platform:'web'
 }
 ios:{
-  Meta:{script:['data bible','data config']},
-  E:[{'metalink':['api']},'load','watch'],
-  Device:'ios',Platform:'app',Deploy:'mobile',
-  Handler:'vclick',On:'fO'
+  Device:'ios',Platform:'app',Screen:'mobile'
 }
 android:{
-  Meta:{script:['data bible','data config']},
-  E:[{'metalink':['api']},'load','watch'],
-  Device:'android',Platform:'app',Deploy:'mobile',
-  Handler:'vclick',On:'fO'
+  Device:'android',Platform:'app',Screen:'mobile'
 }
 chrome:{
-  Meta:{script:['data bible','data config']},
-  E:[{'metalink':['api']},'load','watch'],
-  Device:'chrome',Platform:'app',
-  Handler:'click',On:'fO'
+  Device:'chrome',Platform:'app'
 }
 ```
+Script & Style `screen.platform.device`, Template `device.platform.screen`
+
+## Todo
+
+ - local storage
+ - Options (enable/disable) detect device
+ 
