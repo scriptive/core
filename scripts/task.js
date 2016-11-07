@@ -36,6 +36,7 @@ var task = {
       Ok: "Ok: {msg}",
       Error: "--{msg}",
       Danger: "Processing task might destory your works...",
+      Unknown: "Processing task is not available...",
       Processing: "Task Processing...",
       Completed: "Task Completed!"
     },

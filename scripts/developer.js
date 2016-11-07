@@ -5,13 +5,12 @@ require('./../scripts/task')({
   },
   initial:function() {
     if (this.status.success()){
-      // npm run developer -- --dir=../scriptive.developer
-      // npm run developer -- --pro=lst
-      // npm run developer -- --pro=lst --dir=../scriptive.developer
-      // npm run developer -- --pro=lst --dir=test
-      // npm run developer -- --pro=lst --dir=../scriptive.laisiangtho
       if (Argv.dir) {
-        Argv.dir = path.join(Argv.dir);
+        if (this.json.scriptive.common.hasOwnProperty(Argv.dir) && this.json.scriptive.common[Argv.dir].root) {
+          this.status.exit(this.status.msg.Danger);
+        } else {
+          Argv.dir = path.join(Argv.dir);
+        }
       } else {
         Argv.dir = path.join(
           this.json.scriptive.common.public.root,
@@ -21,26 +20,120 @@ require('./../scripts/task')({
             .replace('.b', this.json.scriptive.common.build)
         );
       }
-      this.createDirectory(Argv.dir, response=> {
-        this.status.msgDefault(response);
-        this.process(this.json.scriptive.developer,path.join("./"), file=> {
-          this.todo.push(file);
+      if (Argv.dev) {
+        if (this.command.hasOwnProperty(Argv.dev)) {
+          this.command[Argv.dev].call(this,response=>{
+            this.status.msgDefault(response);
+          });
+        } else {
+          this.status.exit(this.status.msg.Unknown);
+        }
+      } else {
+        this.commandDeveloper(progress=>{
+          this.status.msgDefault(progress);
+        }, complete=>{
+          this.status.msgDefault(complete);
         });
-        this.copy(done=>{
-          if (this.json.scriptive.project && this.json.scriptive.project.root) {
-            this.status.msgDefault(this.status.msg.Processing);
-            this.process(this.json.scriptive.developer,this.json.scriptive.project.root, file=> {
-              this.todo.push(file);
-            });
-            this.copy(done=>{
-              this.status.msgDefault(this.status.msg.Completed);
-            });
-          } else {
-            this.status.msgDefault(this.status.msg.Completed);
-          }
-        });
-      },true);
+      }
     }
+  },
+  command: {
+    create:function(callback) {
+      /*
+      Argv.id check -> add then copy resource
+      "project": {
+        "Argv.id":{
+          "root":"Argv.dir"
+        }
+      }
+      */
+      // npm run create -- --id=ok --dir=public/test/
+      if (Argv.id || Argv.root) {
+        this.command.connect.call(this,response=>{
+          this.status.msgDefault(response);
+          var scriptive_developer_extend = ['scriptive.json','asset','dev'];
+          for (var id in this.json.scriptive.developer) {
+            if (this.json.scriptive.developer.hasOwnProperty(id)) {
+              if (scriptive_developer_extend.indexOf(id) < 0) {
+                delete this.json.scriptive.developer[id];
+              } 
+            }
+          }
+          this.commandDeveloper(progress=>{
+            this.status.msgDefault(progress);
+          }, complete=>{
+            this.status.msgDefault(complete);
+          });
+        });
+      } else {
+        this.status.msgDefault(this.status.msg.No.Init);
+      }
+    },
+    connect:function(callback) {
+      /*
+      Argv.id check -> add
+      "project": {
+        "Argv.id":{
+          "root":"Argv.dir"
+        }
+      }
+      */
+      // npm run connect -- --id=ok --dir=public/test/
+      if (Argv.id && Argv.dir) {
+        var nameObj={project:{}};
+        nameObj.project[Argv.id]={root:Argv.dir.replace(/\\/g,'/')};
+        fs.writeFile('scriptive.json', JSON.stringify(extend(true,this.json.scriptive,nameObj), null, 2), function(err){
+          callback(err||'Connected');
+        });
+      } else {
+        callback(this.status.msg.No.Init);
+      }
+    },
+    disconnect:function(callback) {
+      /*
+      Argv.id check -> remove
+      "project": {
+        "Argv.id":{
+          "root":"Argv.dir"
+        }
+      }
+      */
+      // npm run disconnect -- --id=newapp
+      if (Argv.id && this.json.scriptive.hasOwnProperty('project')) {
+        delete this.json.scriptive.project[Argv.id];
+        fs.writeFile('scriptive.json', JSON.stringify(this.json.scriptive, null, 2), function(err){
+          callback(err||'Disconnected');
+        });
+      } else {
+        callback('Disconnected');
+      }
+    }
+  },
+  commandDeveloper:function(progress,complete) {
+    // npm run developer -- --dir=../scriptive.developer
+    // npm run developer -- --pro=lst
+    // npm run developer -- --pro=lst --dir=../scriptive.developer
+    // npm run developer -- --pro=lst --dir=test
+    // npm run developer -- --pro=lst --dir=../scriptive.laisiangtho
+    this.createDirectory(Argv.dir, response=> {
+      progress(response);
+      this.process(this.json.scriptive.developer,path.join("./"), file=> {
+        this.todo.push(file);
+      });
+      this.copy(done=>{
+        if (this.json.scriptive.project && this.json.scriptive.project.root) {
+          progress(this.status.msg.Processing);
+          this.process(this.json.scriptive.developer,this.json.scriptive.project.root, file=> {
+            this.todo.push(file);
+          });
+          this.copy(done=>{
+            complete(this.status.msg.Completed);
+          });
+        } else {
+          complete(this.status.msg.Completed);
+        }
+      });
+    },true);
   },
   process:function(obj,directory,callback) {
     fs.readdirSync(directory).forEach(Name=>{
@@ -89,7 +182,32 @@ require('./../scripts/task')({
     scriptiveJSON:function(file,callback) {
       var json = Object.assign({}, this.json.scriptive);
       delete json.developer;
-      json.project={};
+      delete json.project;
+      for (var os in json.individual) {
+        if (json.individual.hasOwnProperty(os)) {
+          json.individual[os]={dist: {} };
+        }
+      }
+      for (var name in json.common) {
+        if (json.common.hasOwnProperty(name)) {
+          if (typeof json.common[name] === 'object') {
+            if (json.common[name].file){
+              json.common[name]={file:{}};
+            } else if (Object.getOwnPropertyNames(json.common[name]).length == 0) {
+              // delete json.common[name];
+            } else {
+              delete json.common[name];
+            }
+          } else if (name == 'name') {
+            if (Argv.id){
+              json.common[name] = Argv.id;
+            }
+          } else {
+            delete json.common[name];
+          }
+        }
+      }
+      // json.common.library={};
       fs.writeFile(file.des, JSON.stringify(json, null, 2), callback);
       delete this.json.scriptive.developer["package.json"];
       delete this.json.scriptive.developer["scriptive.json"];

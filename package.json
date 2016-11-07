@@ -13,6 +13,9 @@
     "chrome": "node ./scripts/build.js --os=chrome",
     "docs": "node ./scripts/build.js --os=web --dir=docs",
     "developer": "node ./scripts/developer.js",
+    "create": "node ./scripts/developer.js --dev=create",
+    "connect": "node ./scripts/developer.js --dev=connect",
+    "disconnect": "node ./scripts/developer.js --dev=disconnect",
     "test": "node ./scripts/test.Delete.js"
   },
   "keywords": [

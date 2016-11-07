@@ -4,8 +4,7 @@
     "unique": ".n-.o-.v-build-.b",
     "version": "1.0.1",
     "build": "1.2.0",
-    "library": {
-    },
+    "library": {},
     "public": {
       "root": "public"
     },
@@ -53,89 +52,86 @@
     }
   },
   "project": {
-    "eba":{
-      "root":"../scriptive.eba"
+    "eba": {
+      "root": "../scriptive.eba"
     },
-    "lst":{
-      "root":"../scriptive.laisiangtho"
+    "lst": {
+      "root": "../scriptive.laisiangtho"
     },
-    "lab":{
-      "root":"../scriptive.labu"
+    "lab": {
+      "root": "../scriptive.labu"
     }
   },
   "developer": {
-    "package.json":"packageJSON",
-    "scriptive.json":"scriptiveJSON",
-    "gulpfile.js":"gulpfileJS",
-    "cmd.bat":"copy",
-    "asset":{
-      "js":true,
-      "less":true,
-      "sass":true
+    "package.json": "packageJSON",
+    "scriptive.json": "scriptiveJSON",
+    "gulpfile.js": "gulpfileJS",
+    "cmd.bat": "copy",
+    "asset": {
+      "js": true,
+      "less": true,
+      "sass": true
     },
-    "config":{
-      "android":true,
-      "chrome":true,
-      "default":true,
-      "electron":true,
-      "ios":true
+    "config": {
+      "android": true,
+      "chrome": true,
+      "default": true,
+      "electron": true,
+      "ios": true
     },
-    "dev":{
-      "css":{
-        "README.md":"copy"
+    "dev": {
+      "css": {
+        "README.md": "copy"
       },
-      "font":{
-        "README.md":"copy",
-        "config.json":"fontelloConfigJSON"
+      "font": {
+        "README.md": "copy",
+        "config.json": "fontelloConfigJSON"
       },
-      "js":{
-        "README.md":"copy"
+      "js": {
+        "README.md": "copy"
       },
-      "img":{
-        "README.md":"copy"
+      "img": {
+        "README.md": "copy"
       },
-      "lib":{
-        "README.md":"copy",
-        "scriptive.min.js":"copy"
+      "lib": {
+        "README.md": "copy",
+        "scriptive.min.js": "copy"
       },
-      "android.app.mobile.html":"copy",
-      "android.app.tablet.html":"copy",
-      "android.html":"copy",
-      "android.web.mobile.html":"copy",
-      "android.web.tablet.html":"copy",
-      "chrome.app.desktop.html":"copy",
-      "chrome.html":"copy",
-      "default.html":"copy",
-      "default.web.desktop.html":"copy",
-      "ios.app.mobile.html":"copy",
-      "ios.app.tablet.html":"copy",
-      "ios.html":"copy",
-      "ios.web.mobile.html":"copy",
-      "ios.web.tablet.html":"copy"
+      "android.app.mobile.html": "copy",
+      "android.app.tablet.html": "copy",
+      "android.html": "copy",
+      "android.web.mobile.html": "copy",
+      "android.web.tablet.html": "copy",
+      "chrome.app.desktop.html": "copy",
+      "chrome.html": "copy",
+      "default.html": "copy",
+      "default.web.desktop.html": "copy",
+      "ios.app.mobile.html": "copy",
+      "ios.app.tablet.html": "copy",
+      "ios.html": "copy",
+      "ios.web.mobile.html": "copy",
+      "ios.web.tablet.html": "copy"
     },
-    "dist":{
+    "dist": {},
+    "scripts": {
+      "task.js": "copy",
+      "build.js": "copy",
+      "download.js": "copy",
+      "developer.js": "copy",
+      "main.js": "copy"
     },
-    "scripts":{
-      "task.js":"copy",
-      "build.js":"copy",
-      "download.js":"copy",
-      "main.js":"copy"
-    },
-    "image":{
-      "android":true,
-      "chrome":true,
-      "default":true,
-      "electron":true,
-      "ios":true
+    "image": {
+      "android": true,
+      "chrome": true,
+      "default": true,
+      "electron": true,
+      "ios": true
     }
   },
   "individual": {
     "chrome": {
       "dist": {
         "file": {
-          "laisiangtho": {
-            "(json)": true
-          },
           "css": {
             "(mobile|web|tablet)": false
           },

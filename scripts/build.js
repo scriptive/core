@@ -16,7 +16,6 @@ require('./../scripts/task')({
         if (this.json.scriptive.individual.hasOwnProperty(Argv.os)) {
           this.setting = extend(true, this.json.scriptive.common, this.json.scriptive.individual[Argv.os]);
           if (Argv.dir) {
-            Argv.dir = path.join(Argv.dir);
             if (this.setting.hasOwnProperty(Argv.dir) && this.setting[Argv.dir].root) {
               if (this.setting[Argv.dir].root == "docs") {
                 if (this.json.scriptive.project && this.json.scriptive.project.root) {
@@ -26,6 +25,7 @@ require('./../scripts/task')({
                 this.status.exit(this.status.msg.Danger);
               }
             }
+            Argv.dir = path.join(Argv.dir);
           } else {
             Argv.dir = path.join(
               this.setting.public.root,
