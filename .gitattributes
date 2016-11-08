@@ -21,7 +21,11 @@
 /*.md export-ignore
 /docs export-ignore
 /public export-ignore
+/asset/filehtmltask export-ignore
+/asset/filesystask export-ignore
+/asset/scriptive export-ignore
 /tests export-ignore
+
 .editorconfig export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
