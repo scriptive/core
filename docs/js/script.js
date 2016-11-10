@@ -1,19 +1,15 @@
-!function(n) {
-    n.load = function(n) {
-        console.log("load 1");
-        var o = this.what();
-        o.then(function(n) {
-            console.log("what", n);
-        });
-    }, n.what = function() {
-        return new Promise(function(n, o) {
-            o("Error");
-        }).then(function(n) {
-            return console.log("if success", n), n;
-        }, function(n) {
-            return console.log("if fail", n), n;
-        }).then(function(n) {
-            return console.log("when done", n), n;
+!function(o) {
+    o.load = function(n) {
+        console.log("loaded"), o.localStorage.select("isObjs"), console.log(o.localStorage.name.isObjs);
+    }, o.what = function() {
+        return new Promise(function(o, n) {
+            n("Error");
+        }).then(function(o) {
+            return console.log("if success", o), o;
+        }, function(o) {
+            return console.log("if fail", o), o;
+        }).then(function(o) {
+            return console.log("when done", o), o;
         });
     };
 }(scriptive("app"));
