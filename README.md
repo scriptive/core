@@ -46,7 +46,7 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
 * `npm run build -- --os=web --dir=docs`
 
 `npm run docs` and `npm run web` are basically the same output, but `npm run docs` has different target `docs` which is for github.
-  
+
 ## Todo
   * `gulp` :seedling:
   * `npm run download` :seedling:

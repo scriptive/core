@@ -1,5 +1,5 @@
 # scriptive
-
+  
 ## Require
 
 ```javascript
@@ -49,7 +49,10 @@ app.document({
   Device: [chrome, ios, android]
   // default Device is "default"
 }
+```
+## Device, Platform and Screen configuration
 
+```javascript
 // Web
 config:{
   Platform:'web',
@@ -84,8 +87,38 @@ chrome:{
 ```
 Script & Style `screen.platform.device`, Template `device.platform.screen`
 
+
+## Meta configuration
+
+```javascript
+// if not object, disabled
+config:{
+  Meta:false
+}
+// loading custom script
+config:{
+  Meta:{
+    script:['data bible','data config']
+  }
+}
+// loading custom style
+config:{
+  Meta:{
+    link:['data bible','data config']
+  }
+}
+// filter
+config:{
+  Meta:{
+    agent:{script:[0,1,2],link:[0,1,2]}
+  }
+}
+```
+
 ## Todo
 
- - local storage
- - Options (enable/disable) detect device
+* Storage
+  - [x] localStorage
+* Options
+  - [x] Enable/Disable device meta
  

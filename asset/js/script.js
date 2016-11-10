@@ -1,15 +1,24 @@
-(function(o) {
-  o.load = function(o) {
-    console.log("load 1");
-    var test = this.what();
-    // console.log(test);
-    test.then(function(e){
-        // NOTE: when done
-        console.log('what',e);
-        // return e;
-    });
+(function(app) {
+  app.load = function(o) {
+    console.log("loaded");
+    // var test = this.what();
+    // // console.log(test);
+    // test.then(function(e){
+    //     // NOTE: when done
+    //     console.log('what',e);
+    //     // return e;
+    // });
+    // console.log(app.localStorage.insert('isObj',[1,2]).name.isObj);
+    // app.localStorage.insert('isObj',[1,2]);
+    app.localStorage.select('isObjs');
+    console.log(app.localStorage.name.isObjs);
+    // app.localStorage.name.isObj['new']='testing';
+    // app.localStorage.update('isObj');
+    // console.log(app.localStorage.name.isObj);
+    // app.localStorage.update('love');
+
   };
-  o.what =function(){
+  app.what =function(){
     return new Promise(function(resolve, reject) {
       // resolve('Ok');
       reject('Error');
