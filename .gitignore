@@ -50,6 +50,7 @@ backup
 nbproject
 delete
 output
+npm-debug.log
 *tmp*/
 *delete*
 *working*

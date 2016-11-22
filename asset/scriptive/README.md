@@ -115,10 +115,29 @@ config:{
 }
 ```
 
+## Orientation configuration
+
+```javascript
+// if not object, disabled
+config:{
+  Orientation:false
+}
+// Enabled
+config:{
+  Orientation: {
+    // change: 'D1699',
+    landscape: 'landscape',
+    portrait: 'portrait',
+    html:'html'
+  }
+}
+```
+
 ## Todo
 
 * Storage
   - [x] localStorage
 * Options
   - [x] Enable/Disable device meta
+  - [x] Enable/Disable orientation change
  

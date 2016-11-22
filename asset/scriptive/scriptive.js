@@ -1,14 +1,13 @@
 /*!
     scriptive -- Javascript application service
-    Version 1.0.0
-    https://scriptive.github.io/script
+    Version 1.0.1
+    https://scriptive.github.io/core
     (c) 2016
-    root->initial{meta,device}->listen->initiate
 */
-(function(win,doc) {
+(function(os,win,doc) {
   'use strict';
   // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-  var os = 'scriptive',ob='app',Config={};
+  var ob='app',Config={};
   var app={
     todo:{
       1:'a'
@@ -34,106 +33,7 @@
       return this.root.merge(win[os]);
     },
     device:{
-      platform:{
-        is:function(needle){return navigator.userAgent.toLowerCase().indexOf(needle) !== -1;},
-        ios:function(){return this.iphone() || this.ipod() || this.ipad();},
-        iphone:function(){return !this.windows() && this.is('iphone');},
-        ipod:function(){return this.is('ipod');},
-        ipad:function(){return this.is('ipad');},
-        android:function(){return !this.windows() && this.is('android');},
-        ADP:function(){return this.android() && this.is('mobile');},
-        ADT:function(){return this.android() && !this.is('mobile');},
-        blackberry:function(){return this.is('blackberry') || this.is('bb10') || this.is('rim');},
-        BBP:function(){return this.blackberry() && !this.is('tablet');},
-        BBT:function(){return this.blackberry() && this.is('tablet');},
-        windows:function(){return this.is('windows');},
-        WDP:function(){return this.windows() && this.is('phone');},
-        WDT:function(){return this.windows() && (this.is('touch') && !this.WDP());},
-        fxos:function(){return (this.is('(mobile;') || this.is('(tablet;')) && this.is('; rv:');},
-        FFP:function(){return this.fxos() && this.is('mobile');},
-        FFT:function(){return this.fxos() && this.is('tablet');},
-        meego:function(){return this.is('meego');},
-        cordova:function(){return win.cordova && location.protocol === 'file:';},
-        chrome:function(){return Config.Platform === 'chrome';},
-        nodeWebkit:function(){return typeof window.process === 'object';},
-        mobile:function(){return this.ADP() || this.iphone() || this.ipod() || this.WDP() || this.BBP() || this.FFP() || this.meego();},
-        tablet:function(){return this.ipad() || this.ADT() || this.BBT() || this.WDT() || this.FFT();}
-        // desktop:function(){return !this.tablet() && !this.mobile();}
-      },
-      agent:function(fileMeta){
-        if (win.addEventListener) {
-          win.addEventListener(Config.Orientation.evt, this.orientate, false);
-        } else if (win.attachEvent) {
-          win.attachEvent(Config.Orientation.evt, this.orientate);
-        } else {
-          win[Config.Orientation.evt] = this.orientate;
-        }
-        this.orientate();
-        var fileAgent=[], template=[], 
-          name ={
-            desktop:'desktop', tablet:'tablet', mobile:'mobile', 
-            ios:'ios', android:'android', defaults:'default',
-            web:'web', app:'app'
-          };
-        Config.isCordova = this.platform.cordova();
-        Config.isChrome = this.platform.chrome();
-        if (!Config.Platform) Config.Platform = name.web;
-        if (!Config.Screen) Config.Screen = name.desktop;
-        if (this.platform.mobile()) {
-          Config.Screen = name.mobile;
-        } else if (this.platform.tablet()) {
-          Config.Screen = name.tablet;
-        } 
-
-        if (this.platform.ios()) {
-          Config.Device = name.ios;
-        } else if (this.platform.android()) {
-          Config.Device = name.android;
-        } else if (this.platform.hasMethodProperty(Config.Device)) {
-          // NOTE: only deploying
-        } else {
-          // NOTE: if Config.Screen is not equal to desktop, {default.web.mobile} to avoid error, but need to update later
-          // if (Config.Screen != name.desktop) {
-          //   Config.Screen = name.desktop;
-          // }
-          Config.Device = name.defaults;
-        }
-        // NOTE: for js, css
-        fileAgent.push(Config.Screen, Config.Platform,Config.Device);
-        // NOTE: for html
-        Config.DeviceTemplate = [Config.Device, Config.Platform, Config.Screen];
-        /*
-        chrome: {
-          Device:'chrome', Platform:'app', Screen:'desktop'
-        }
-        ios: {
-          Device:'ios', Platform:'app', Screen:'mobile'
-        }
-        android: {
-          Device:'android', Platform:'app', Screen:'mobile'
-        }
-        default: {
-          Platform:'web'
-        }
-        */
-        var file = [], fileName = [];
-        if (typeof(fileMeta) == "object") {
-          for (var id in fileAgent) {
-            fileName.push(fileAgent[id]);
-            for (var fileType in fileMeta) {
-              if (fileMeta.hasOwnProperty(fileType) && typeof(fileMeta[fileType]) === 'object') {
-                if (fileMeta[fileType].filter(function(i) {return i == id}).length) {
-                  file.push({type: fileType, name: fileName.join('.')});
-                }
-              }
-            }
-          }
-        }
-        return file;
-      },
-      orientate:function(){
-        doc.querySelector("html").setAttribute('class',(win.innerHeight < win.innerWidth?Config.Orientation.landscape:Config.Orientation.portrait));
-      }
+      // =require scriptive.Device.default.js
     },
     meta:{
       locale:{
@@ -156,8 +56,7 @@
       oblige:function(fileMeta){
         // app.meta.attach(app.meta.oblige(Config.Meta).concat(app.device.agent()));
         var file = [
-          // {type: 'script', name: 'localforage.min'},
-          // {type: 'script', name: 'data.bible'},
+          // {type: 'script', name: 'data.setting'},
           // {type: 'script', name: 'data.config'}
         ];
         for (var type in fileMeta) {
@@ -213,30 +112,7 @@
       todo:{
       }, 
       config:{
-        Meta:{
-          // script:['data bible','data config'],
-          agent:{script:[0,1,2],link:[0,1,2]}
-        },
-        Execute:['Action'],T:[],
-        // load, event, task
-        Handler: ('ontouchstart' in document.documentElement ? "touchstart" : "click"),
-        On: 'fO', Hash: 'hashchange', Device: 'desktop', Platform: 'web', Layout: null, Browser: 'chrome',
-        fileSystask:'Chrome', //temporary
-        Orientation: {change: 'D1699',landscape: 'landscape',portrait: 'portrait'},
-        note: {}, lang: {}, query: {},
-        lookup: {
-            setting: {},book: {}
-        },
-        previous: {},
-        todo: {
-            Orientation: true,
-            // NOTE: if Template=true will be loaded Template!
-            Template: true
-        },
-        container: {},
-        msg: {
-            info: '#msg'
-        }
+        // =require scriptive.Config.default.js
       }, 
       scriptive:{
         version:'2.1.23.2016.1.5'
@@ -246,12 +122,14 @@
         response.merge({config: {}});
         Config = this.config.merge(response.config);
         app.ready(function(event){
-          Config.Orientation.evt = (Object.prototype.hasOwnProperty.call(window, "onorientationchange")) ? "orientationchange" : "resize";
           if (response.hasOwnProperty('ready')){
             response.ready.call(app.root,event);
           }
           if (typeof Config.msg.info == 'string'){
             Config.msg.info = doc.querySelector(Config.msg.info);
+          }
+          if (typeof (Config.Orientation) == 'object') {
+            app.device.orientate((Object.prototype.hasOwnProperty.call(window, "onorientationchange")) ? "orientationchange" : "resize");
           }
           if (typeof Config.Meta == 'object'){
             app.meta.append(app.device.agent(Config.Meta.agent));
@@ -305,34 +183,7 @@
         });
       },
       localStorage:{
-        name:{},
-        storage:win.localStorage,
-        select:function(key,state) {
-          var val = this.storage.getItem(key);
-          try {
-            this.name[key] = (val?JSON.parse(val):{});
-          } catch (e) {
-            this.name[key] = val;
-          } finally {
-            return this;
-          }
-        },
-        insert:function(key,val) {
-          if (typeof (val) == 'object') {
-            this.storage.setItem(key,JSON.stringify(val));
-          } else {
-            this.storage.setItem(key,val);
-          }
-          this.name[key] = val;
-          return this;
-        },
-        update:function(key,val) {
-          return this.insert(key,val||this.name[key]);
-        },
-        delete:function(key) {
-          this.storage.removeItem(key);
-          return this;
-        }
+        // =require scriptive.localStorage.default.js
       }
       // tmp:function(){
       //   console.log('tmp');
@@ -342,5 +193,7 @@
   win[os] = function(a){
     return new app.init(a);
   }
-}(window,document));
-// =require scriptive.Prototype.Custom.js
+}("scriptive",window,document));
+// =require scriptive.define.Properties.js
+// require scriptive.Array.prototype.js
+// require scriptive.Object.prototype.js

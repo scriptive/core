@@ -60,6 +60,9 @@
     },
     "lab": {
       "root": "../scriptive.labu"
+    },
+    "lamal": {
+      "root": "../scriptive.lamal"
     }
   },
   "developer": {
@@ -217,5 +220,16 @@
       }
     },
     "electron": {}
+  },
+  "gulp":{
+    "sass":{
+      "outputStyle": "compressed"
+    },
+    "js":{
+      "compress":true,
+      "preserveComments":"license"
+    },
+    "custom":{
+    }
   }
 }

@@ -49,6 +49,7 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
 
 ## Todo
   * `gulp` :seedling:
+  * `gulp` Option :seedling:
   * `npm run download` :seedling:
   * `npm run build` :seedling:
   * `npm run developer` :seedling:

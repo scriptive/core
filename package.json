@@ -1,9 +1,10 @@
 {
   "name": "scriptive",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "javascript application service",
   "main": "./scripts/main.js",
   "scripts": {
+    "gulp": "node ./scripts/gulp.js",
     "download": "node ./scripts/download.js",
     "build": "node ./scripts/build.js",
     "ios": "node ./scripts/build.js --os=ios",
