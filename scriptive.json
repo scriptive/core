@@ -5,28 +5,22 @@
     "version": "1.0.1",
     "build": "1.2.0",
     "library": {},
-    "public": {
-      "root": "public"
-    },
-    "docs": {
-      "root": "docs"
-    },
     "asset": {
       "root": "asset"
     },
     "config": {
       "root": "config"
     },
-    "image": {
-      "root": "image"
-    },
     "dev": {
       "root": "dev",
       "lib": "lib"
     },
+    "docs": {
+      "root": "docs"
+    },
     "dist": {
       "root": "dist",
-      "dir": "public",
+      "dir": "pro",
       "main": "index",
       "type": "app",
       "file": {
@@ -49,6 +43,12 @@
           "([A-Z]|\\d)": false
         }
       }
+    },
+    "image": {
+      "root": "image"
+    },
+    "pro": {
+      "root": "pro"
     }
   },
   "project": {
@@ -63,6 +63,12 @@
     },
     "lamal": {
       "root": "../scriptive.lamal"
+    },
+    "firebase": {
+      "root": "../scriptive.firebase"
+    },
+    "test": {
+      "root": "../scriptive.test"
     }
   },
   "developer": {
@@ -221,15 +227,14 @@
     },
     "electron": {}
   },
-  "gulp":{
-    "sass":{
+  "gulp": {
+    "sass": {
       "outputStyle": "compressed"
     },
-    "js":{
-      "compress":true,
-      "preserveComments":"license"
+    "js": {
+      "compress": true,
+      "preserveComments": "license"
     },
-    "custom":{
-    }
+    "custom": {}
   }
 }

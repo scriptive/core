@@ -13,7 +13,7 @@ require('./../scripts/task')({
         }
       } else {
         Argv.dir = path.join(
-          this.json.scriptive.common.public.root,
+          this.json.scriptive.common.pro.root,
           this.json.scriptive.common.unique.replace('.n', this.json.scriptive.common.name)
             .replace('.o', 'developer')
             .replace('.v', this.json.scriptive.common.version)
@@ -47,7 +47,7 @@ require('./../scripts/task')({
         }
       }
       */
-      // npm run create -- --id=ok --dir=public/test/
+      // npm run create -- --id=ok --dir=pro/test/
       if (Argv.id && Argv.dir) {
         this.command.connect.call(this,response=>{
           this.status.msgDefault(response);
@@ -78,7 +78,7 @@ require('./../scripts/task')({
         }
       }
       */
-      // npm run connect -- --id=ok --dir=public/test/
+      // npm run connect -- --id=ok --dir=pro/test/
       if (Argv.id && Argv.dir) {
         var nameObj={project:{}};
         nameObj.project[Argv.id]={root:Argv.dir.replace(/\\/g,'/')};

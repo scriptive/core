@@ -10,6 +10,15 @@ require('./../scripts/task')({
     npm run build -- --os=ios --pro=eba
     npm run build -- --os=ios --dir=../scriptive.appName --pro=eba
     npm run build --  --os=web --dir=docs
+    npm run web -- --pro=firebase --dir=../scriptive.firebase/firebase
+    
+    npm run build -- --os=web  --pro=test --dir=../scriptive.test/firebase
+    npm run build -- --os=web  --pro=test --dir=firebase
+    npm run build -- --os=web  --pro=test --dir=../delete-firebase
+    npm run build -- --os=web  --pro=test --source=true
+    npm run build -- --os=firebase  --pro=test
+    npm run build -- --os=web  --pro=test
+    npm run build -- --os=web
     */
     if (this.status.success()){
       if (Argv.os) {
@@ -17,18 +26,13 @@ require('./../scripts/task')({
           this.setting = extend(true, this.json.scriptive.common, this.json.scriptive.individual[Argv.os]);
           if (Argv.dir) {
             if (this.setting.hasOwnProperty(Argv.dir) && this.setting[Argv.dir].root) {
-              if (this.setting[Argv.dir].root == "docs") {
-                if (this.json.scriptive.project && this.json.scriptive.project.root) {
-                  Argv.dir = path.join(this.json.scriptive.project.root,Argv.dir);
-                }
-              } else {
+              if (this.setting[Argv.dir].root != "docs") {
                 this.status.exit(this.status.msg.Danger);
               }
             }
-            Argv.dir = path.join(Argv.dir);
           } else {
             Argv.dir = path.join(
-              this.setting.public.root,
+              this.setting.pro.root,
               this.setting.unique.replace('.n', this.setting.name)
                 .replace('.o', Argv.os)
                 .replace('.v', this.setting.version)
@@ -38,11 +42,21 @@ require('./../scripts/task')({
           if (!this.setting.dev.main) {
             this.setting.dev.main = Argv.os;
           }
+
+          if (this.json.scriptive.project && this.json.scriptive.project.root) {
+            Argv.dir = path.join(this.json.scriptive.project.root,Argv.dir);
+            if (!Argv.source){
+              Argv.root = path.join(this.json.scriptive.project.root,this.setting.dev.root);
+              this.setting.image.root = path.join(this.json.scriptive.project.root,this.setting.image.root);
+              this.setting.config.root = path.join(this.json.scriptive.project.root,this.setting.config.root);
+            }
+          } else {
+            Argv.root = path.join(this.setting.dev.root);
+          }
           this.createDirectory(Argv.dir, response=> {
             this.status.msgDefault(response);
-            Argv.root = path.join(this.setting.dev.root);
             this.process(Argv.root,response=> {
-              if (this.json.scriptive.project && this.json.scriptive.project.root) {
+              if (this.json.scriptive.project && this.json.scriptive.project.root && Argv.source) {
                 this.status.msgDefault(this.status.msg.Processing);
                 Argv.root = path.join(this.json.scriptive.project.root,Argv.root);
                 this.setting.image.root = path.join(this.json.scriptive.project.root,this.setting.image.root);

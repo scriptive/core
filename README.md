@@ -42,6 +42,7 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
 
 * `npm run build -- --os=<device> --pro=<project>`
 * `npm run build -- --os=<device> --pro=<project>`
+* `npm run web -- --pro=firebase --dir=../scriptive.firebase/firebase`
 * `npm run build -- --dir=<directory>`
 * `npm run build -- --os=web --dir=docs`
 

@@ -21,6 +21,7 @@
 /*.md export-ignore
 /docs export-ignore
 /public export-ignore
+/pro export-ignore
 /asset/filehtmltask export-ignore
 /asset/filesystask export-ignore
 /asset/scriptive export-ignore
