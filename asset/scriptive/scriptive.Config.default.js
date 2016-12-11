@@ -16,7 +16,7 @@ previous: {},
 todo: {
     Orientation: true,
     // NOTE: if Template=true will be loaded Template!
-    Template: true
+    // Template:'z.html body'
 },
 container: {},
 msg: {

@@ -4,22 +4,6 @@ require('./../scripts/task')({
     scriptive:'scriptive.json'
   },
   initial:function() {
-    /*
-    npm run build -- --os=
-    npm run build -- --os=ios --pro=lst
-    npm run build -- --os=ios --pro=eba
-    npm run build -- --os=ios --dir=../scriptive.appName --pro=eba
-    npm run build --  --os=web --dir=docs
-    npm run web -- --pro=firebase --dir=../scriptive.firebase/firebase
-    
-    npm run build -- --os=web  --pro=test --dir=../scriptive.test/firebase
-    npm run build -- --os=web  --pro=test --dir=firebase
-    npm run build -- --os=web  --pro=test --dir=../delete-firebase
-    npm run build -- --os=web  --pro=test --source=true
-    npm run build -- --os=firebase  --pro=test
-    npm run build -- --os=web  --pro=test
-    npm run build -- --os=web
-    */
     if (this.status.success()){
       if (Argv.os) {
         if (this.json.scriptive.individual.hasOwnProperty(Argv.os)) {

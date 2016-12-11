@@ -58,17 +58,11 @@
     "lst": {
       "root": "../scriptive.laisiangtho"
     },
-    "lab": {
-      "root": "../scriptive.labu"
-    },
     "lamal": {
       "root": "../scriptive.lamal"
     },
     "firebase": {
       "root": "../scriptive.firebase"
-    },
-    "test": {
-      "root": "../scriptive.test"
     }
   },
   "developer": {

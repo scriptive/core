@@ -10,8 +10,8 @@
     // });
     // console.log(app.localStorage.insert('isObj',[1,2]).name.isObj);
     // app.localStorage.insert('isObj',[1,2]);
-    app.localStorage.select('isObjs');
-    console.log(app.localStorage.name.isObjs);
+    // app.localStorage.select('isObjs');
+    // console.log(app.localStorage.name.isObjs);
     // app.localStorage.name.isObj['new']='testing';
     // app.localStorage.update('isObj');
     // console.log(app.localStorage.name.isObj);

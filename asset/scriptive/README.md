@@ -71,7 +71,8 @@ config:{
 config:{
   Device:'android', Platform:'app', Screen:'mobile'
 }
-
+```
+```javascript
 default:{
   Device:'desktop',Platform:'web'
 }
@@ -85,9 +86,18 @@ chrome:{
   Device:'chrome',Platform:'app'
 }
 ```
-Script & Style `screen.platform.device`, Template `device.platform.screen`
 
+## Custom structure for Template and Script/Style
+Script & Style `platform.screen.device`, Template `device.screen`
 
+Default DeviceTemplate is `['Device','Screen']` and if `Platform` is not given in main configuration or we equal to 'web' the `Device` use default Platform value. which is 'default'
+
+```javascript
+config:{
+  DeviceAgent:['Platform','Screen','Device'],
+  DeviceTemplate:['Device','Platform','Screen']
+}
+```
 ## Meta configuration
 
 ```javascript
@@ -111,6 +121,12 @@ config:{
 config:{
   Meta:{
     agent:{script:[0,1,2],link:[0,1,2]}
+  }
+}
+config:{
+  Meta:{
+    script:['data bible','data config'],
+    agent:false
   }
 }
 ```

@@ -25,7 +25,7 @@ platform:{
   // desktop:function(){return !this.tablet() && !this.mobile();}
 },
 agent:function(fileMeta){
-  var fileAgent=[], template=[], 
+  var fileAgent=[],fileTemplate=[], template=[], 
     name ={
       desktop:'desktop', tablet:'tablet', mobile:'mobile', 
       ios:'ios', android:'android', defaults:'default',
@@ -40,7 +40,6 @@ agent:function(fileMeta){
   } else if (this.platform.tablet()) {
     Config.Screen = name.tablet;
   } 
-
   if (this.platform.ios()) {
     Config.Device = name.ios;
   } else if (this.platform.android()) {
@@ -55,9 +54,35 @@ agent:function(fileMeta){
     Config.Device = name.defaults;
   }
   // NOTE: for js, css
-  fileAgent.push(Config.Screen, Config.Platform,Config.Device);
+  if (typeof Config.DeviceAgent === 'object'){
+    for (var i in Config.DeviceAgent) {
+      var iName = Config.DeviceAgent[i];
+      if (Config.hasOwnProperty(iName)){
+        fileAgent.push(Config[iName]);
+      } else if (typeof iName ==='string') {
+        fileAgent.push(iName);
+      }
+    }
+  } else {
+    fileAgent.push(Config.Platform,Config.Screen,Config.Device);
+  }
   // NOTE: for html
-  Config.DeviceTemplate = [Config.Device, Config.Platform, Config.Screen];
+  if (typeof Config.DeviceTemplate === 'object'){
+    for (var i in Config.DeviceTemplate) {
+      var iName = Config.DeviceTemplate[i];
+      if (Config.hasOwnProperty(iName)){
+        fileTemplate.push(Config[iName]);
+      } else if (typeof iName ==='string') {
+        fileTemplate.push(iName);
+      }
+    }
+  } else if (Config.Platform == name.web) {
+    fileTemplate.push(name.defaults, Config.Screen);
+  } else {
+    fileTemplate.push(Config.Device, Config.Screen);
+  }
+  Config.DeviceTemplate = fileTemplate;
+  // Config.DeviceTemplate = [Config.Device, Config.Platform, Config.Screen];
   /*
   chrome: {
     Device:'chrome', Platform:'app', Screen:'desktop'
