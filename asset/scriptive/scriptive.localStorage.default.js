@@ -1,7 +1,7 @@
 name:{},
 storage:win.localStorage,
-select:function(key,state) {
-  var val = this.storage.getItem(key);
+select:function(key,val) {
+  var val = this.storage.getItem(this.ids(key));
   try {
     this.name[key] = (val?JSON.parse(val):{});
   } catch (e) {
@@ -11,10 +11,11 @@ select:function(key,state) {
   }
 },
 insert:function(key,val) {
+  var id = this.ids(key);
   if (typeof (val) == 'object') {
-    this.storage.setItem(key,JSON.stringify(val));
+    this.storage.setItem(id,JSON.stringify(val));
   } else {
-    this.storage.setItem(key,val);
+    this.storage.setItem(id,val);
   }
   this.name[key] = val;
   return this;
@@ -23,6 +24,9 @@ update:function(key,val) {
   return this.insert(key,val||this.name[key]);
 },
 delete:function(key) {
-  this.storage.removeItem(key);
+  this.storage.removeItem(this.ids(key));
   return this;
+},
+ids:function(key) {
+  return app.root.config.idUnique.replace(/unique/,key);
 }

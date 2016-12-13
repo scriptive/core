@@ -3,6 +3,7 @@ sass=require('gulp-sass'),
 uglify=require('gulp-uglify'),
 concat=require('gulp-concat'),
 include=require('gulp-include'),
+replace=require('gulp-replace'),
 exec=require('child_process').exec,
 eventStream = require('event-stream');
 var data=require('./scripts/task')({
@@ -13,6 +14,8 @@ var data=require('./scripts/task')({
   initial:function() {
     if (this.status.success()){
       // gulp --pro=lst
+      this.BuildDate = new Date().toISOString().slice(0,10).replace(/-/g,'.');
+      // this.BuildDate = this.json.package.version;
       if (this.json.scriptive.project && this.json.scriptive.project.root) {
         this.assetRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.common.asset.root);
         this.devRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.common.dev.root);
@@ -66,6 +69,8 @@ gulp.task('AssetSASS', function () {
 gulp.task('AssetJS',function(){
   this.src(path.join(data.assetRoot,'js','*([^A-Z0-9-]).js'))
   .pipe(include().on('error', console.log))
+  .pipe(replace(/(Version) '(.*)'/g, 'v' +data.json.scriptive.common.version))
+  .pipe(replace(/(Version.buildDate)/g, 'Version.buildDate'.replace(/Version/g,data.json.scriptive.common.version).replace(/buildDate/g,data.BuildDate)))
   .pipe(uglify(data.AssetJS).on('error', console.log))
   .pipe(this.dest(path.join(data.devRoot,'js')));
 });
@@ -73,6 +78,8 @@ gulp.task('AssetJS',function(){
 gulp.task('scriptive',function(){
   this.src(path.join(data.json.scriptive.common.asset.root,'scriptive','scriptive.js'))
   .pipe(include())
+  .pipe(replace(/(Version) '(.*)'/g, 'v' +data.json.package.version))
+  .pipe(replace(/(Version.buildDate)/g, 'Version.buildDate'.replace(/Version/g,data.json.package.version).replace(/buildDate/g,data.BuildDate)))
   .pipe(uglify({
     mangle:false,
     output:{

@@ -1,7 +1,7 @@
 {
   "name": "scriptive",
   "version": "1.0.2",
-  "description": "javascript application service",
+  "description": "Javascript application service",
   "main": "./scripts/main.js",
   "scripts": {
     "gulp": "node ./scripts/gulp.js",
@@ -40,6 +40,7 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-include": "^2.3.1",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^2.0.0",
     "minimist": "^1.2.0",

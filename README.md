@@ -57,6 +57,11 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
   * `npm run create` :seedling:
   * `npm run connect` :seedling:
   * `npm run disconnect` :seedling:
+
+## Added
+ * gulp-replace
+ * version control
+ * unique id for localstorage
   
 ```javascript
 // npm run create -- --id=<?> --dir=<?>

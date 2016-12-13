@@ -20,6 +20,7 @@ scripting('app');
 (function (app) {
   ...
 }(scripting('app')));
+
 ```
 
 ## Calls
@@ -27,13 +28,26 @@ scripting('app');
 ```javascript
 app.document({
   config:{
-    Meta:{script:['data bible','data config']},
-    E:[{'metalink':['api']},'load','watch'],
-    Platform:'web',
-    Handler:'click',On:'fO'
+    // configurations
   },
   ready:function(){
     this.config.msg.info = document.querySelector("#msg");
+  }
+});
+```
+## Require and Create then Call
+
+```javascript
+scriptive({
+  initiate:function(){
+    console.log('initiate');
+  }
+}).document({
+  config:{
+    E:['initiate']
+  },
+  ready:function(){
+    console.log('ready');
   }
 });
 ```
@@ -150,10 +164,11 @@ config:{
 ```
 
 ## Todo
-
+* [x] `scriptive({}).document({})`;
 * Storage
   - [x] localStorage
 * Options
   - [x] Enable/Disable device meta
   - [x] Enable/Disable orientation change
+  - [ ] hashChange
  

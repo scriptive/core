@@ -1,13 +1,13 @@
 /*!
     scriptive -- Javascript application service
-    Version 1.0.1
+    Version '1.0.2'
     https://scriptive.github.io/core
     (c) 2016
 */
 (function(os,win,doc) {
   'use strict';
   // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-  var ob='app',Config={};
+  var ob='app',obUnique=':unique',Config={};
   var app={
     todo:{
       1:'a'
@@ -22,18 +22,47 @@
       doc.addEventListener("DOMContentLoaded", callback, false );
     },
     fn:{
-      object:function(a){
-        return app.assign();
+      object:function(o){
+        return app.root.merge(o);
       },
-      string:function(a){
-        return win[a] = app.assign();
+      string:function(n){
+        // app.root.merge(win[os]);
+        ob = n;
+        return win[n] = app.root;
       }
-    },
-    assign:function(){
-      return this.root.merge(win[os]);
     },
     device:{
       // =require scriptive.Device.default.js
+    },
+    hash:function(){
+      var r=this.root.config.hash,q,obj=win.location.hash.split('?');
+      // var obj = win.location.href.slice(win.location.href.indexOf('#') + 1).split('?')
+        if (obj.length){
+          var hash = obj[0].split('/');
+          for(var i = 0; i < hash.length; i++){
+            if (i == 0){
+              r['page']=hash[i].replace(/#/,'');
+            } else {
+              r[i]=hash[i];
+            }
+          }
+          if (obj.length > 1){
+            var search = /([^\?#&=]+)=([^&]*)/g;
+            while (q = search.exec(obj[1])) r[q[1]] = q[2];
+          }
+        }
+      return r;
+    },
+    hashEventListener:function(){
+      if(!win.HashChangeEvent)(function(){
+        var lastURL=doc.URL;
+        win.addEventListener("hashchange",function(event){
+          Object.defineProperties(event,{
+            oldURL:{enumerable:true,configurable:true,value:lastURL},newURL:{enumerable:true,configurable:true,value:doc.URL}
+          });
+          lastURL=doc.URL;
+        });
+      }());
     },
     meta:{
       locale:{
@@ -93,9 +122,8 @@
         // doc.getElementsByTagName('head')[0].appendChild(req);
       },
       listen:function(){
-        app.root.notification('class','icon-database');
         if (Config.isCordova) {
-          app.root.notification('getting Device ready');
+          app.root.notification('class','icon-database').innerHTML = 'getting Device ready...';
           doc.addEventListener("deviceready", this.initiate, false);
         } else {
           this.initiate();
@@ -115,18 +143,28 @@
         // =require scriptive.Config.default.js
       }, 
       scriptive:{
-        version:'2.1.23.2016.1.5'
+        version:'Version.buildDate'
       },
       document:function(response){
         // Object.assign.call(response, {config: {}});
         response.merge({config: {}});
         Config = this.config.merge(response.config);
         app.ready(function(event){
+          // app.hashEventListener();
           if (response.hasOwnProperty('ready')){
             response.ready.call(app.root,event);
           }
           if (typeof Config.msg.info == 'string'){
             Config.msg.info = doc.querySelector(Config.msg.info);
+          }
+          if (typeof Config.id == 'string'){
+            if (Config.id.search(obUnique) < 0 ){
+              Config.idUnique = Config.id+obUnique;
+            } else {
+              Config.idUnique = Config.id;
+            }
+          } else {
+            Config.idUnique = ob+obUnique;
           }
           if (typeof (Config.Orientation) == 'object') {
             app.device.orientate((Object.prototype.hasOwnProperty.call(window, "onorientationchange")) ? "orientationchange" : "resize");
@@ -144,7 +182,7 @@
         // app.notification('msg','class','blink');
         if (this.config.msg.info !== null) {
           if (arguments.length > 1){
-            this.config.msg.info.setAttribute(arguments[0],arguments[1])
+            this.config.msg.info.setAttribute(arguments[0],arguments[1]);
           } else {
             this.config.msg.info.innerHTML=arguments[0];
           }
@@ -172,19 +210,26 @@
           }));
         }​
       },
-      metalink:function() {
+      metaLink:function() {
         arguments[0].each(function(i,v){
           win[v] = doc.querySelector('link[rel=0]'.replace(0,v)).getAttribute('href');
         });
       },
-      metacontent:function() {
+      metaContent:function() {
         arguments[0].each(function(i,v){
           win[v] = doc.querySelector('meta[name=0]'.replace(0,v)).getAttribute('content');
         });
       },
       localStorage:{
         // =require scriptive.localStorage.default.js
-      }
+      },
+      hashChange:function(callback){
+        win.addEventListener('hashchange', function(event){
+          app.hash();
+          if (typeof callback === 'function')callback(event);
+        },false);
+        return  app.hash();
+      },
       // tmp:function(){
       //   console.log('tmp');
       // }
