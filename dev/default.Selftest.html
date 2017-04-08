@@ -10,26 +10,38 @@
   <!-- <link rel="stylesheet" href="font/scriptive.css"> -->
   <link rel="stylesheet" href="css/style.css">
   <script src="lib/scriptive.min.js"></script>
-  <script src="lib/filestorage.min.js"></script>
-  <script src="js/script.js"></script>
   <script>
-    app.document({
-      config:{
-        Execute:[{'metalink':['api']}]
+  scriptive({
+    initiate:function(){
+      console.log('initiated');
+      // console.log(this.config);
+    }
+  }).document({
+    config:{
+      apple:'is Apple',
+      Meta:{
+        // agent:false
+        agent:{
+          script:false
+          // script:[0], link:[0]
+        }
       },
-      ready:function(){
-        // this.config.msg.info = document.querySelector("li#msg");
-      }
-    });
+      // Meta:false
+      // Execute:['initiate']
+    },
+    ready:function(){
+      this.config.msg.info = document.querySelector("li#msg");
+    }
+  });
   </script>
 </head>
-<body>
-  <div id="screen">
+<body id="screen">
+  <div>
     <div>
-      <h1 title="1.0.3">Scriptive</h1>
+      <h1 title="1.0.2">Scriptive</h1>
     </div>
     <div>
-      <p>April 8, 2017</p>
+      <p>December 11, 2016</p>
     </div>
     <div>
       <ol>

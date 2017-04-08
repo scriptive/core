@@ -49,14 +49,17 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
 `npm run docs` and `npm run web` are basically the same output, but `npm run docs` has different target `docs` which is for github.
 
 ## Todo
-  * `gulp` :seedling:
-  * `gulp` Option :seedling:
-  * `npm run download` :seedling:
-  * `npm run build` :seedling:
-  * `npm run developer` :seedling:
-  * `npm run create` :seedling:
-  * `npm run connect` :seedling:
-  * `npm run disconnect` :seedling:
+  * [x] `gulp` :seedling:
+  * [x] `gulp` Option
+  * [x] `npm run download` :seedling:
+  * [x] `npm run build` :seedling:
+  * [x] `npm run developer` :seedling:
+  * [x] `npm run create` :seedling:
+  * [x] `npm run connect` :seedling:
+  * [x] `npm run disconnect` :seedling:
+  * [ ] re-`gulp` on `npm run build`
+    - to avoid missing file and update version and build
+    - replace `{package.*}` and `{scriptive.*}`
 
 ## Added
  * gulp-replace

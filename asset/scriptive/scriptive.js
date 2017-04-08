@@ -1,68 +1,111 @@
 /*!
     scriptive -- Javascript application service
-    Version '1.0.2'
+    Version {package.version}-{application.buildDate}
     https://scriptive.github.io/core
-    (c) 2016
 */
-(function(os,win,doc) {
+(function(a0,win,doc) {
   'use strict';
-  // window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-  var ob='app',obUnique=':unique',Config={};
-  var app={
-    todo:{
-      1:'a'
+  // =require scriptive.define.Properties.js
+  // win.indexedDB = win.indexedDB || win.mozIndexedDB || win.webkitIndexedDB || win.msIndexedDB;
+  var a1='app',a1Unique=':unique',
+  core={
+    i0:function(a){
+      var i=typeof a;
+      if (core.f0.hasOwnProperty(i)) return core.f0[i](a);
     },
-    init:function(a){
-      var id=typeof a;
-      if (app.fn.hasOwnProperty(id)){
-        return app.fn[id](a);
-      }
-    },
-    ready:function(callback){
-      doc.addEventListener("DOMContentLoaded", callback, false );
-    },
-    fn:{
-      object:function(o){
-        return app.root.merge(o);
+    f0:{
+      object:function(a){
+        return app.merge(a);
       },
-      string:function(n){
-        // app.root.merge(win[os]);
-        ob = n;
-        return win[n] = app.root;
+      string:function(a){
+        a1 = a; return win[a] = app;
       }
     },
+    // callback:{
+    //   before:function(e){
+    //     // NOTE: before processing the task!
+    //     return e;
+    //   },
+    //   progress:function(e){
+    //     // NOTE: while processing!  completed 'Percentage' return!
+    //     return e;
+    //   },
+    //   done:function(e){
+    //     // NOTE: upon completion, either success or fail!
+    //     return e;
+    //   },
+    //   fail:function(e){
+    //     // NOTE: only the task fail, if not success!
+    //     return e;
+    //   },
+    //   success:function(e){
+    //     // NOTE: only the task success, if not fail
+    //     return e;
+    //   }
+    // },
     device:{
       // =require scriptive.Device.default.js
     },
     hash:function(){
-      var r=this.root.config.hash,q,obj=win.location.hash.split('?');
-      // var obj = win.location.href.slice(win.location.href.indexOf('#') + 1).split('?')
-        if (obj.length){
-          var hash = obj[0].split('/');
+      var r=app.config.hash,q,o=win.location.hash.split('?');
+      // var o = win.location.href.slice(win.location.href.indexOf('#') + 1).split('?')
+        if (o.length){
+          var hash = o[0].split('/');
           for(var i = 0; i < hash.length; i++){
-            if (i == 0){
-              r['page']=hash[i].replace(/#/,'');
-            } else {
-              r[i]=hash[i];
+            if (hash[i]) {
+              if (i == 0){
+                r['page']=hash[i].replace(/#/,'');
+              } else {
+                r[i]=hash[i];
+              }
             }
           }
-          if (obj.length > 1){
+          if (o.length > 1){
             var search = /([^\?#&=]+)=([^&]*)/g;
-            while (q = search.exec(obj[1])) r[q[1]] = q[2];
+            while (q = search.exec(o[1])) r[q[1]] = q[2];
           }
         }
       return r;
     },
-    hashEventListener:function(){
-      if(!win.HashChangeEvent)(function(){
-        var lastURL=doc.URL;
-        win.addEventListener("hashchange",function(event){
-          Object.defineProperties(event,{
-            oldURL:{enumerable:true,configurable:true,value:lastURL},newURL:{enumerable:true,configurable:true,value:doc.URL}
-          });
-          lastURL=doc.URL;
+    idUnique:function(id) {
+      if (app.config.hasOwnProperty('idUnique')){
+        if (app.config.idUnique.search(a1Unique) < 0 ) app.config.idUnique = app.config.idUnique+a1Unique;
+      } else if (typeof id == 'string'){
+        if (id.search(a1Unique) < 0 ){
+          app.config.idUnique = id+a1Unique;
+        } else {
+          app.config.idUnique = id;
+        }
+      } else {
+        app.config.idUnique = a1+a1Unique;
+      }
+    },
+    data:{
+      execute:function(x,y) {
+        var i=x.shift();
+        if (this.hasOwnProperty(i)){
+          if (this.isFunction(i)){
+            return this[i](y);
+          } else if (x.length) {
+            return core.data.execute.call(this[i],x,y);
+          }
+        }
+        return false;
+      },
+      link:function(s) {
+        doc.querySelectorAll('[0]'.replace(0,s)).each(function(i,e){
+          if (e.styleDisplay())
+            e.eventClick(function() {
+              core.data.execute.call(app,e.getAttribute(s).split(' ').filter(function(e){return e}),e);
+            });
         });
-      }());
+      },
+      content:function(s) {
+        doc.querySelectorAll('[0]'.replace(0,s)).each(function(i,e){
+          if (e.styleDisplay())
+            core.data.execute.call(app,e.getAttribute(s).split(' ').filter(function(e){return e}),e);
+        });
+      }
     },
     meta:{
       locale:{
@@ -83,26 +126,27 @@
         }
       },
       oblige:function(fileMeta){
-        // app.meta.attach(app.meta.oblige(Config.Meta).concat(app.device.agent()));
+        // core.meta.attach(core.meta.oblige(app.config.Meta).concat(core.device.agent()));
         var file = [
           // {type: 'script', name: 'data.setting'},
           // {type: 'script', name: 'data.config'}
         ];
         for (var type in fileMeta) {
           for (var src in fileMeta[type]) {
-            file.push({type: type, name: fileMeta[type][src].replace(' ','.')});
+            file.push({type: type, name: fileMeta[type][src].toString().replace(' ','.')});
           }
         }
         return file;
       },
       append:function(deviceAgent){
-        delete Config.Meta.agent;
-        Config.Meta = this.oblige(Config.Meta).concat(deviceAgent);
+        // TODO: remove comment
+        delete app.config.Meta.agent;
+        app.config.Meta = this.oblige(app.config.Meta).concat(deviceAgent);
         this.attach();
       },
       attach:function(){
         try {
-          var o = this, x = Config.Meta.shift(), y = x.type, url = (x.dir || o.locale[y].dir) + x.name + o.locale[y].extension,
+          var o = this, x = app.config.Meta.shift(), y = x.type, url = (x.dir || o.locale[y].dir) + x.name + o.locale[y].extension,
           req = doc.createElement(y);
           o.locale[y].attr.each(function(i,v){
             req[i] = v || url;
@@ -111,8 +155,8 @@
             o.attach();
           };
           req.onload = function() {
-            app.root.notification(x.name);
-            if (Config.Meta.length) { o.attach(); } else { o.listen(); }
+            app.notification(x.name);
+            if (app.config.Meta.length) { o.attach(); } else { o.listen(); }
           };
           doc.head.appendChild(req);
         } catch (e) {
@@ -122,123 +166,143 @@
         // doc.getElementsByTagName('head')[0].appendChild(req);
       },
       listen:function(){
-        if (Config.isCordova) {
-          app.root.notification('class','icon-database').innerHTML = 'getting Device ready...';
+        app.notification('getting Ready...');
+        if (app.config.isCordova) {
           doc.addEventListener("deviceready", this.initiate, false);
         } else {
           this.initiate();
         }
       },
       initiate:function(){
-        Config.Execute.each(function(i,v){
+        core.hash(),app.config.Execute.each(function(i,v){
           i = (typeof v === 'object') ? Object.keys(v)[0] : v;
-          app.root.execute.call(app.root,i.split(' '),v[i]);
+          core.data.execute.call(app,i.split(' '),v[i]);
         });
       }
+    }
+  },
+  app={
+    config:{
+      // =require app.Configuration.js
     },
-    root:{
-      todo:{
-      }, 
-      config:{
-        // =require scriptive.Config.default.js
-      }, 
-      scriptive:{
-        version:'Version.buildDate'
-      },
-      document:function(response){
-        // Object.assign.call(response, {config: {}});
-        response.merge({config: {}});
-        Config = this.config.merge(response.config);
-        app.ready(function(event){
-          // app.hashEventListener();
-          if (response.hasOwnProperty('ready')){
-            response.ready.call(app.root,event);
-          }
-          if (typeof Config.msg.info == 'string'){
-            Config.msg.info = doc.querySelector(Config.msg.info);
-          }
-          if (typeof Config.id == 'string'){
-            if (Config.id.search(obUnique) < 0 ){
-              Config.idUnique = Config.id+obUnique;
-            } else {
-              Config.idUnique = Config.id;
-            }
-          } else {
-            Config.idUnique = ob+obUnique;
-          }
-          if (typeof (Config.Orientation) == 'object') {
-            app.device.orientate((Object.prototype.hasOwnProperty.call(window, "onorientationchange")) ? "orientationchange" : "resize");
-          }
-          if (typeof Config.Meta == 'object'){
-            app.meta.append(app.device.agent(Config.Meta.agent));
-          } else {
-            app.meta.listen();
-          }
-        });
-      },
-      notification:function(){
-        // app.notification('msg');
-        // app.notification('class','blink');
-        // app.notification('msg','class','blink');
-        if (this.config.msg.info !== null) {
-          if (arguments.length > 1){
-            this.config.msg.info.setAttribute(arguments[0],arguments[1]);
-          } else {
-            this.config.msg.info.innerHTML=arguments[0];
-          }
-          return this.config.msg.info;
+    document:function(response){
+      if (response.hasOwnProperty('config') && response.config.constructor === Object){
+        app.config.merge(response.config);
+        if (response.config.hasOwnProperty('Meta')){
+          if (response.config.Meta.hasOwnProperty('agent'))app.config.Meta.agent=response.config.Meta.agent;
         }
-      },
-      execute:function(x,y) {
-        var i=x.shift();
-        if (this.hasOwnProperty(i)){
-          if (this.isFunction(i)){
-            return this[i](y);
-          } else if (x.length) {
-            return app.root.execute.call(this[i],x,y);
-          }
+      }
+      doc.addEventListener("DOMContentLoaded", function(event){
+        // NOTE: Configuration
+        if (response.hasOwnProperty('ready'))response.ready.call(app,event);
+        // NOTE: Message
+        if (typeof app.config.msg.info == 'string')app.config.msg.info = doc.querySelector(app.config.msg.info);
+        core.idUnique(app.config.id);
+        // NOTE: Orientation
+        if (app.config.Orientation.isEmpty() != true)core.device.orientate(win.hasOwnProperty.call(win, "onorientationchange") ? "orientationchange" : "resize");
+        // core.device.orientate((Object.prototype.hasOwnProperty.call(win, "onorientationchange")) ? "orientationchange" : "resize");
+        // NOTE: Prepare
+        if (typeof app.config.Meta === 'object'){
+          core.meta.append(core.device.agent(app.config.Meta.agent));
+        } else {
+          core.meta.listen();
         }
-        return false;
+        // NOTE: Observer
+        // app.Observer = new MutationObserver(function(mutations) { app.dataLink(); });
+        // app.Observer.observe(doc.body, {attributes: true, subtree:true });
+        new MutationObserver(function(mutations) {
+          app.dataLink();
+        }).observe(doc.body, {attributes: true, subtree:true });
+        // { attributes: true,childList: true, characterData: true, subtree:true }
+      }, false);
+    },
+    notification:function(){
+      // core.notification('msg');
+      // core.notification('class','blink');
+      // core.notification('msg','class','blink');
+      if (app.config.msg.info !== null) {
+        if (arguments.length > 1){
+          app.config.msg.info.setAttribute(arguments[0],arguments[1]);
+        } else {
+          app.config.msg.info.innerHTML=arguments[0];
+        }
+        return app.config.msg.info;
+      }
+    },
+    // dataExecute:function(x,y) {
+    //   return core.data.execute.call(this,x,y);
+    // },
+    dataLink:function(d) {
+      core.data.link(d?d:app.config.dataLink);
+    },
+    dataContent:function(d) {
+      core.data.content(d?d:app.config.dataContent);
+    },
+    metaLink:function(e) {
+      e.each(function(i,v){
+        win[v] = doc.querySelector('link[rel=0]'.replace(0,v)).getAttribute('href');
+      });
+    },
+    metaContent:function(e) {
+      e.each(function(i,v){
+        win[v] = doc.querySelector('meta[name=0]'.replace(0,v)).getAttribute('content');
+      });
+    },
+    localStorage:{
+      // =require app.localStorage.default.js
+    },
+    // eventHash eventHash, hashContent
+    hashChange:function(callback){
+      win.addEventListener('hashchange', function(event){
+        if (typeof callback === 'function')core.hash(),callback(event);
+      },false);
+    },
+    elementCreate: function(e) {
+      return doc.createElement(e);
+    },
+    elementSelect: function(e) {
+      return doc.querySelector(e);
+      // return doc.body.querySelector(e);
+    },
+    elementId: function(e) {
+      return doc.getElementById(e);
+    },
+    elementAll: function(e) {
+      return doc.querySelectorAll(e);
+    },
+    elementClassname: function(e) {
+      return doc.getElementsByClassName(e);
+    },
+    elementTagname: function(e) {
+      return doc.getElementsByTagName(e);
+    },
+    // toggleMenu, toggleDialog, toggleNav, toggleHeader
+    // switchMenu, openMenu, openDialog, openNav, openHeader
+    // changeMenu, eMenu, eDialog, eventMenu, eventDialog, eventNav, eventHeader, eventMain, eventFooter, eventHandler
+    // styleMenu, elementMenu, elementDialog
+    Toggle:{
+      // NOTE: hO
+      menu: function(e, resolve, reject) {
+        // =require app.Toggle.menu.js
       },
-      handler:function() {
-        // querySelector,querySelectorAll
-        var element = doc.getElementsByClassName(Config.On);
-        for (var i = 0; i < element.length; i++) {
-          element[i].addEventListener(Config.Handler, (function(event) {
-            var query = this.getAttribute('class').split(' ').filter(function(e){return e}).remove(Config.On);
-            app.root.execute.call(app.root,query,event);
-          }));
-        }​
+      dialog: function(resolve, reject) {
+        // =require app.Toggle.dialog.js
       },
-      metaLink:function() {
-        arguments[0].each(function(i,v){
-          win[v] = doc.querySelector('link[rel=0]'.replace(0,v)).getAttribute('href');
-        });
+      nav: function(e, resolve, reject) {
+        // =require app.Toggle.nav.js
       },
-      metaContent:function() {
-        arguments[0].each(function(i,v){
-          win[v] = doc.querySelector('meta[name=0]'.replace(0,v)).getAttribute('content');
-        });
+      header: function(e, resolve, reject) {
+        // =require app.Toggle.header.js
       },
-      localStorage:{
-        // =require scriptive.localStorage.default.js
+      main: function(s) {
+        // =require app.Toggle.main.js
       },
-      hashChange:function(callback){
-        win.addEventListener('hashchange', function(event){
-          app.hash();
-          if (typeof callback === 'function')callback(event);
-        },false);
-        return  app.hash();
-      },
-      // tmp:function(){
-      //   console.log('tmp');
-      // }
+      footer: function(e, resolve, reject) {
+        // require app.Toggle.footer.js
+      }
     }
   };
-  win[os] = function(a){
-    return new app.init(a);
+  win[a0] = function(a){
+    return new core.i0(a);
   }
 }("scriptive",window,document));
-// =require scriptive.define.Properties.js
-// require scriptive.Array.prototype.js
-// require scriptive.Object.prototype.js

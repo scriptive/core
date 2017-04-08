@@ -44,7 +44,7 @@ scriptive({
   }
 }).document({
   config:{
-    E:['initiate']
+    Execute:['initiate']
   },
   ready:function(){
     console.log('ready');
@@ -165,10 +165,22 @@ config:{
 
 ## Todo
 * [x] `scriptive({}).document({})`;
+* [x] `notification()`;
+* [ ] `handlerEventExecutor()`;
+* [x] `handlerEventListener()`;
+* [x] `dataMethodListener()`;
+* [x] `metaLink()`;
+* [x] `metaContent()`;
+* [x] `hashChange()`;
+* [x] `localStorage`;
+* [x] `load({})`;
+
 * Storage
   - [x] localStorage
 * Options
   - [x] Enable/Disable device meta
   - [x] Enable/Disable orientation change
+  - [x] dataMethodListener
+  - [x] dataDisplay
   - [ ] hashChange
  

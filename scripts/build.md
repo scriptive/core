@@ -42,6 +42,7 @@ npm run build -- --os=ios --pro=eba
 npm run build -- --os=ios --dir=../scriptive.appName --pro=eba
 npm run build --  --os=web --dir=docs
 npm run web -- --pro=firebase --dir=../scriptive.firebase/firebase
+npm run docs -- --pro=storage
 
 npm run build -- --os=web  --pro=test --dir=../scriptive.test/firebase
 npm run build -- --os=web  --pro=test --dir=firebase

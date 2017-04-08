@@ -11,18 +11,21 @@ var data=require('./scripts/task')({
     package:'package.json',
     scriptive:'scriptive.json'
   },
+  version:{
+  },
   initial:function() {
     if (this.status.success()){
       // gulp --pro=lst
-      this.BuildDate = new Date().toISOString().slice(0,10).replace(/-/g,'.');
+      this.json.scriptive.app['buildDate'] = new Date().toISOString().slice(0,10).replace(/-/g,'.');
+      // this.BuildDate = new Date().toISOString().slice(0,10).replace(/-/g,'.');
       // this.BuildDate = this.json.package.version;
       if (this.json.scriptive.project && this.json.scriptive.project.root) {
-        this.assetRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.common.asset.root);
-        this.devRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.common.dev.root);
+        this.assetRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.app.asset.root);
+        this.devRoot = path.join(this.json.scriptive.project.root,this.json.scriptive.app.dev.root);
         if (this.json.scriptive.gulp.hasOwnProperty('custom'))this.custom(this.json.scriptive.gulp.custom,this.json.scriptive.project.root);
       } else {
-        this.assetRoot = path.join(this.json.scriptive.common.asset.root);
-        this.devRoot = path.join(this.json.scriptive.common.dev.root);
+        this.assetRoot = path.join(this.json.scriptive.app.asset.root);
+        this.devRoot = path.join(this.json.scriptive.app.dev.root);
       }
       extend(this.AssetSASS,this.json.scriptive.gulp.sass);
       extend(this.AssetJS,this.json.scriptive.gulp.js);
@@ -52,11 +55,38 @@ var data=require('./scripts/task')({
       gulp.task(name, task=>{
         var w = gulp.src(src);
         for(var i in o.pipe)w=w.pipe(require(i)(o.pipe[i]));
-        return w.pipe(gulp.dest(path.join(root,o.target)));
+        w.pipe(replace(/\{(application.*?)\}/gm,  data.replace.app))
+        w.pipe(replace(/\{((package|scriptive).*?)\}/gm,  data.replace.json))
+        if (o.target.constructor === Array){
+          o.target.map(dir=>{w=w.pipe(gulp.dest(path.join(root,dir)))});
+        } else {
+          w=w.pipe(gulp.dest(path.join(root,o.target)));
+        }
+        return w;
       });
       this.watch.push(name);
-      gulp.watch(src,[name]);
+      gulp.watch(o.hasOwnProperty('watch')?path.join(root,o.watch):src,[name]);
     });
+  },
+  replace:{
+    // version:function(){
+    //   return 'v' +data.json.scriptive.app.version;
+    // },
+    app:function(){
+      var e = data.json.scriptive.app;
+      arguments[1].split('.').forEach(function(v){
+        if (e.hasOwnProperty(v))e=e[v];
+      });
+      return (typeof e === 'string')?e:arguments[0];
+    },
+    json:function(){
+      var e = data.json;
+      arguments[1].split('.').forEach(function(v){
+        if (e.hasOwnProperty(v))e=e[v];
+      });
+      // return (typeof e === 'string')?e:arguments[0];
+      return (typeof e === 'string')?e:arguments[0];
+    }
   }
 });
 //SASS
@@ -69,17 +99,34 @@ gulp.task('AssetSASS', function () {
 gulp.task('AssetJS',function(){
   this.src(path.join(data.assetRoot,'js','*([^A-Z0-9-]).js'))
   .pipe(include().on('error', console.log))
-  .pipe(replace(/(Version) '(.*)'/g, 'v' +data.json.scriptive.common.version))
-  .pipe(replace(/(Version.buildDate)/g, 'Version.buildDate'.replace(/Version/g,data.json.scriptive.common.version).replace(/buildDate/g,data.BuildDate)))
+  .pipe(replace(/\{(application.*?)\}/gm,  data.replace.app))
+  .pipe(replace(/\{((package|scriptive).*?)\}/gm,  data.replace.json))
   .pipe(uglify(data.AssetJS).on('error', console.log))
   .pipe(this.dest(path.join(data.devRoot,'js')));
 });
 //startDeveloper
 gulp.task('scriptive',function(){
-  this.src(path.join(data.json.scriptive.common.asset.root,'scriptive','scriptive.js'))
+  this.src(path.join(data.json.scriptive.app.asset.root,'scriptive','scriptive.js'))
   .pipe(include())
-  .pipe(replace(/(Version) '(.*)'/g, 'v' +data.json.package.version))
-  .pipe(replace(/(Version.buildDate)/g, 'Version.buildDate'.replace(/Version/g,data.json.package.version).replace(/buildDate/g,data.BuildDate)))
+  .pipe(replace(/\{(application.*?)\}/gm,  data.replace.app))
+  .pipe(replace(/\{((package|scriptive).*?)\}/gm,  data.replace.json))
+  .pipe(uglify({
+    mangle:true,
+    output:{
+      beautify: false, comments:'license'
+    },
+    compress:true,
+    preserveComments:'license'
+  }).on('error', console.log))
+  .pipe(concat('scriptive.min.js'))
+  .pipe(this.dest(data.json.scriptive.app.dist.root))
+  .pipe(this.dest(path.join(data.devRoot,data.json.scriptive.app.dev.lib)));
+});
+// fileStorage
+/*
+gulp.task('filestorage',function(){
+  this.src(path.join(data.json.scriptive.app.asset.root,'filestorage','fileStorage.js'))
+  .pipe(include())
   .pipe(uglify({
     mangle:false,
     output:{
@@ -88,13 +135,14 @@ gulp.task('scriptive',function(){
     compress:true,
     preserveComments:'license'
   }).on('error', console.log))
-  .pipe(concat('scriptive.min.js'))
-  .pipe(this.dest(data.json.scriptive.common.dist.root))
-  .pipe(this.dest(path.join(data.devRoot,data.json.scriptive.common.dev.lib)));
+  .pipe(concat('filestorage.min.js'))
+  .pipe(this.dest(data.json.scriptive.app.dist.root));
 });
+*/
 // fileSystask
+/*
 gulp.task('filesystask',function(){
-  this.src(path.join(data.json.scriptive.common.asset.root,'filesystask','fileSystask.js'))
+  this.src(path.join(data.json.scriptive.app.asset.root,'filesystask','fileSystask.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -105,11 +153,12 @@ gulp.task('filesystask',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('filesystask.min.js'))
-  .pipe(this.dest(data.json.scriptive.common.dist.root));
+  .pipe(this.dest(data.json.scriptive.app.dist.root));
 });
+*/
 // fileHtmltask
 gulp.task('filehtmltask',function(){
-  this.src(path.join(data.json.scriptive.common.asset.root,'filehtmltask','fileHtmltask.js'))
+  this.src(path.join(data.json.scriptive.app.asset.root,'filehtmltask','fileHtmltask.js'))
   .pipe(include())
   .pipe(uglify({
     mangle:false,
@@ -120,16 +169,17 @@ gulp.task('filehtmltask',function(){
     preserveComments:'license'
   }).on('error', console.log))
   .pipe(concat('filehtmltask.min.js'))
-  .pipe(this.dest(data.json.scriptive.common.dist.root));
+  .pipe(this.dest(data.json.scriptive.app.dist.root));
 });
 //endDeveloper
 gulp.task('watch', function() {
   this.watch(path.join(data.assetRoot,'sass','*.scss'), ['AssetSASS']);
   this.watch(path.join(data.assetRoot,'js','*.js'), ['AssetJS']);
   //scriptDeveloper
-  this.watch(path.join(data.json.scriptive.common.asset.root,'filesystask','*.js'), ['filesystask']);
-  this.watch(path.join(data.json.scriptive.common.asset.root,'filehtmltask','*.js'), ['filehtmltask']);
-  this.watch(path.join(data.json.scriptive.common.asset.root,'scriptive','*.js'), ['scriptive']);
+  // this.watch(path.join(data.json.scriptive.app.asset.root,'filestorage','*.js'), ['filestorage']);
+  // this.watch(path.join(data.json.scriptive.app.asset.root,'filesystask','*.js'), ['filesystask']);
+  this.watch(path.join(data.json.scriptive.app.asset.root,'filehtmltask','*.js'), ['filehtmltask']);
+  this.watch(path.join(data.json.scriptive.app.asset.root,'scriptive','*.js'), ['scriptive']);
   //scriptDeveloper
 });
 //TASK

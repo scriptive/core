@@ -27,6 +27,10 @@ delete:function(key) {
   this.storage.removeItem(this.ids(key));
   return this;
 },
+deleteAll:function(key) {
+  this.storage.clear();
+  return this;
+},
 ids:function(key) {
-  return app.root.config.idUnique.replace(/unique/,key);
+  return app.config.idUnique.replace(/unique/,key);
 }

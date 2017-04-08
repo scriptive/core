@@ -21,22 +21,22 @@
   <!-- <script src="lib/jquery.mobile.custom.min.js"></script> -->
   <!-- <script src="lib/localforage.min.js"></script> -->
   <script src="lib/scriptive.min.js"></script>
+  <script src="lib/filestorage.min.js"></script>
   <script src="js/script.js"></script>
   <script>
     app.document({
       config:{
-        Execute:[{'metalink':['api']},'load','handler'],
-        Device:'ios',Platform:'app',Screen:'mobile',
-        Handler:'click',On:'fO'
+        Execute:[{'metalink':['api']}],
+        Device:'ios',Platform:'app',Screen:'mobile'
       },
       ready:function(){
-        this.config.msg.info = document.querySelector("li#msg");
+        // this.config.msg.info = document.querySelector("li#msg");
       }
     });
   </script>
 </head>
-<body id="screen">
-  <div>
+<body>
+  <div id="screen">
     <div>
       <h1 title="1.0.0">Scriptive</h1>
     </div>

@@ -7,13 +7,13 @@ require('./../scripts/task')({
     // npm run download -- --pro=eba
     if (this.status.success()){
       if (this.json.scriptive.project && this.json.scriptive.project.root) {
-        this.json.scriptive.common.dev.root = path.join(this.json.scriptive.project.root,this.json.scriptive.common.dev.root);
+        this.json.scriptive.app.dev.root = path.join(this.json.scriptive.project.root,this.json.scriptive.app.dev.root);
       } 
       this.process();
     }
   },
   process:function() {
-    for(var file in this.json.scriptive.common.library) { 
+    for(var file in this.json.scriptive.app.library) { 
       this.todo.push(file);
     }
     this.download(response=>{
@@ -23,8 +23,8 @@ require('./../scripts/task')({
   download:function(callback){
     if (this.todo.length) {
       var file = this.todo.shift();
-      var fileDownload = this.json.scriptive.common.library[file];
-      var fileSave = path.join(this.json.scriptive.common.dev.root,this.json.scriptive.common.dev.lib,file);
+      var fileDownload = this.json.scriptive.app.library[file];
+      var fileSave = path.join(this.json.scriptive.app.dev.root,this.json.scriptive.app.dev.lib,file);
       got(fileDownload).then(response => {
         fs.outputFile(fileSave, response.body, error => {
           if (error) {

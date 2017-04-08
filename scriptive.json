@@ -1,9 +1,11 @@
 {
-  "common": {
+  "app": {
     "name": "scriptive",
+    "description": "Javascript application service",
+    "developer":"Khen Solomon Lethil",
     "unique": ".n-.o-.v-build-.b",
-    "version": "1.0.1",
-    "build": "1.2.0",
+    "version": "1.0.3",
+    "build": "1.2.2",
     "library": {},
     "asset": {
       "root": "asset"
@@ -56,13 +58,16 @@
       "root": "../scriptive.eba"
     },
     "lst": {
-      "root": "../scriptive.laisiangtho"
+      "root": "../laisiangtho.core"
     },
     "lamal": {
       "root": "../scriptive.lamal"
     },
     "firebase": {
       "root": "../scriptive.firebase"
+    },
+    "storage": {
+      "root": "../scriptive.filestorage"
     }
   },
   "developer": {
@@ -229,6 +234,7 @@
       "compress": true,
       "preserveComments": "license"
     },
-    "custom": {}
+    "custom": {
+    }
   }
 }

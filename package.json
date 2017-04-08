@@ -1,6 +1,7 @@
 {
   "name": "scriptive",
-  "version": "1.0.2",
+  "version": "1.0.3",
+  "build": "1.0.2",
   "description": "Javascript application service",
   "main": "./scripts/main.js",
   "scripts": {
@@ -34,18 +35,18 @@
   "homepage": "https://github.com/scriptive/core#readme",
   "dependencies": {},
   "devDependencies": {
-    "cli-color": "^1.1.0",
+    "cli-color": "^1.2.0",
     "fs-extra": "^0.30.0",
-    "got": "^6.5.0",
+    "got": "^6.7.1",
     "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
+    "gulp-concat": "^2.6.1",
     "gulp-include": "^2.3.1",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
-    "gulp-uglify": "^2.0.0",
+    "gulp-uglify": "^2.1.2",
     "minimist": "^1.2.0",
     "node.extend": "^1.1.6",
-    "uglify-js": "^2.7.3",
-    "xmldom": "^0.1.22"
+    "uglify-js": "^2.8.21",
+    "xmldom": "^0.1.27"
   }
 }

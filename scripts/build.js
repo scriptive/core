@@ -7,7 +7,7 @@ require('./../scripts/task')({
     if (this.status.success()){
       if (Argv.os) {
         if (this.json.scriptive.individual.hasOwnProperty(Argv.os)) {
-          this.setting = extend(true, this.json.scriptive.common, this.json.scriptive.individual[Argv.os]);
+          this.setting = extend(true, this.json.scriptive.app, this.json.scriptive.individual[Argv.os]);
           if (Argv.dir) {
             if (this.setting.hasOwnProperty(Argv.dir) && this.setting[Argv.dir].root) {
               if (this.setting[Argv.dir].root != "docs") {

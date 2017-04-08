@@ -6,18 +6,18 @@ require('./../scripts/task')({
   initial:function() {
     if (this.status.success()){
       if (Argv.dir) {
-        if (this.json.scriptive.common.hasOwnProperty(Argv.dir) && this.json.scriptive.common[Argv.dir].root) {
+        if (this.json.scriptive.app.hasOwnProperty(Argv.dir) && this.json.scriptive.app[Argv.dir].root) {
           this.status.exit(this.status.msg.Danger);
         } else {
           Argv.dir = path.join(Argv.dir);
         }
       } else {
         Argv.dir = path.join(
-          this.json.scriptive.common.pro.root,
-          this.json.scriptive.common.unique.replace('.n', this.json.scriptive.common.name)
+          this.json.scriptive.app.pro.root,
+          this.json.scriptive.app.unique.replace('.n', this.json.scriptive.app.name)
             .replace('.o', 'developer')
-            .replace('.v', this.json.scriptive.common.version)
-            .replace('.b', this.json.scriptive.common.build)
+            .replace('.v', this.json.scriptive.app.version)
+            .replace('.b', this.json.scriptive.app.build)
         );
       }
       if (Argv.dev) {
@@ -153,7 +153,7 @@ require('./../scripts/task')({
                 this.status.msgError(this.status.msg.Error.replace('{msg}', dir));
               }
             } else {
-              this.status.msgSuccess(this.status.msg.Ok.replace('Ok', this.json.scriptive.common.name).replace('{msg}', dir));
+              this.status.msgSuccess(this.status.msg.Ok.replace('Ok', this.json.scriptive.app.name).replace('{msg}', dir));
             }
           });
         } else if (objName === true) {
@@ -167,8 +167,8 @@ require('./../scripts/task')({
   custom:{
     packageJSON:function(file,callback) {
       var json = Object.assign({}, this.json.package);
-      json.name = this.json.scriptive.common.name.toLowerCase().replace(/ /g, '-');
-      json.description = this.json.scriptive.common.name+"'s description";
+      json.name = this.json.scriptive.app.name.toLowerCase().replace(/ /g, '-');
+      json.description = this.json.scriptive.app.name+"'s description";
       delete json.keywords;
       delete json.author;
       delete json.license;
@@ -188,26 +188,26 @@ require('./../scripts/task')({
           json.individual[os]={dist: {} };
         }
       }
-      for (var name in json.common) {
-        if (json.common.hasOwnProperty(name)) {
-          if (typeof json.common[name] === 'object') {
-            if (json.common[name].file){
-              json.common[name]={file:{}};
-            } else if (Object.getOwnPropertyNames(json.common[name]).length == 0) {
-              // delete json.common[name];
+      for (var name in json.app) {
+        if (json.app.hasOwnProperty(name)) {
+          if (typeof json.app[name] === 'object') {
+            if (json.app[name].file){
+              json.app[name]={file:{}};
+            } else if (Object.getOwnPropertyNames(json.app[name]).length == 0) {
+              // delete json.app[name];
             } else {
-              delete json.common[name];
+              delete json.app[name];
             }
           } else if (name == 'name') {
             if (Argv.id){
-              json.common[name] = Argv.id;
+              json.app[name] = Argv.id;
             }
           } else {
-            delete json.common[name];
+            delete json.app[name];
           }
         }
       }
-      // json.common.library={};
+      // json.app.library={};
       fs.writeFile(file.des, JSON.stringify(json, null, 2), callback);
       delete this.json.scriptive.developer["package.json"];
       delete this.json.scriptive.developer["scriptive.json"];
@@ -224,8 +224,8 @@ require('./../scripts/task')({
     },
     fontelloConfigJSON:function(file,callback) {
       var json = JSON.parse(fs.readFileSync(file.src));
-      json.name = this.json.scriptive.common.name;
-      json.copyright = this.json.scriptive.common.name;
+      json.name = this.json.scriptive.app.name;
+      json.copyright = this.json.scriptive.app.name;
       // mkdir,ensureDir
       fs.ensureDir(path.dirname(file.des),function(err) {
         fs.writeFile(file.des, JSON.stringify(json, null, 2), callback);
@@ -246,7 +246,7 @@ require('./../scripts/task')({
             this.status.msgError(this.status.msg.Error.replace('{msg}', error));
           }
         } else {
-          this.status.msgSuccess(this.status.msg.Ok.replace('Ok', this.json.scriptive.common.name).replace('{msg}', file.src));
+          this.status.msgSuccess(this.status.msg.Ok.replace('Ok', this.json.scriptive.app.name).replace('{msg}', file.src));
         }
         this.copy(callback);
       });

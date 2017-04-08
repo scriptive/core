@@ -52,7 +52,6 @@ delete
 output
 npm-debug.log
 *tmp*/
-*delete*
 *working*
 *tmp*
 *copy*
