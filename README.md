@@ -4,6 +4,7 @@ Javascript Application Service
 ## Task
 * Install devDependencies
   - `npm install --save-dev`
+  - `npm update --save-dev`
   - `npm install --production --save-dev`
   - `npm update --production --save-dev`
 * Uninstall devDependencies
@@ -48,6 +49,12 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
 
 `npm run docs` and `npm run web` are basically the same output, but `npm run docs` has different target `docs` which is for github.
 
+## `npm run create -- --id=<?> --dir=<?>`
+
+## `npm run connect -- --id=<?> --dir=<?>`
+
+## `npm run disconnect -- --id=<?>`
+
 ## Todo
   * [x] `gulp` :seedling:
   * [x] `gulp` Option
@@ -67,9 +74,6 @@ Everything in `scriptive.config.root{device}` directory will copy to `scriptive.
  * unique id for localstorage
   
 ```javascript
-// npm run create -- --id=<?> --dir=<?>
-// npm run connect -- --id=<?> --dir=<?>
-// npm run disconnect -- --id=<?>
 
 "package": {
   "project":{

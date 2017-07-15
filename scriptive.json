@@ -2,7 +2,7 @@
   "app": {
     "name": "scriptive",
     "description": "Javascript application service",
-    "developer":"Khen Solomon Lethil",
+    "developer": "Khen Solomon Lethil",
     "unique": ".n-.o-.v-build-.b",
     "version": "1.0.3",
     "build": "1.2.2",
@@ -68,6 +68,9 @@
     },
     "storage": {
       "root": "../scriptive.filestorage"
+    },
+    "man": {
+      "root": "../scriptive.manager"
     }
   },
   "developer": {
@@ -234,7 +237,6 @@
       "compress": true,
       "preserveComments": "license"
     },
-    "custom": {
-    }
+    "custom": {}
   }
 }
